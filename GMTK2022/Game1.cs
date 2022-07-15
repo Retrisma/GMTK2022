@@ -43,6 +43,9 @@ namespace GMTK2022
 
         protected override void Initialize()
         {
+            _graphics.PreferredBackBufferWidth = 960;
+            _graphics.PreferredBackBufferHeight = 540;
+
             _sprites = new List<Sprite>();
             _spritesToAdd = new List<Sprite>();
             _spritesToRemove = new List<Sprite>();
