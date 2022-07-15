@@ -38,12 +38,6 @@
 /processorParam:Quality=Best
 /build:SoundEffects/death1.wav
 
-#begin SoundEffects/death1.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SoundEffects/death1.wav
-
 #begin SoundEffects/death2.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

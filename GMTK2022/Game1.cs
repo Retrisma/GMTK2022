@@ -96,7 +96,7 @@ namespace GMTK2022
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(samplerState:SamplerState.PointClamp);
 
             foreach (Sprite sprite in _sprites)
             {
