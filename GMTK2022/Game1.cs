@@ -45,6 +45,7 @@ namespace GMTK2022
         {
             _graphics.PreferredBackBufferWidth = 960;
             _graphics.PreferredBackBufferHeight = 540;
+            _graphics.ApplyChanges();
 
             _sprites = new List<Sprite>();
             _spritesToAdd = new List<Sprite>();
