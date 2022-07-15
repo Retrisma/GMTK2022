@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace GMTK2022
 {
@@ -18,6 +19,19 @@ namespace GMTK2022
         public static List<Sprite> _spritesToAdd;
         public static List<Sprite> _spritesToRemove;
 
+        public static Dictionary<string, Texture2D> _spriteContent;
+        public static Dictionary<string, SoundEffect> _musicContent;
+        public static Dictionary<string, SoundEffect> _SFXContent;
+
+        public static Random _rand;
+
+        public static bool KeyPress(Keys key)
+        {
+            if (!_previousState.IsKeyDown(key) && _state.IsKeyDown(key))
+                return true;
+            return false;
+        }
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -31,6 +45,8 @@ namespace GMTK2022
             _spritesToAdd = new List<Sprite>();
             _spritesToRemove = new List<Sprite>();
 
+            _rand = new Random(Guid.NewGuid().GetHashCode());
+
             base.Initialize();
         }
 
@@ -38,7 +54,12 @@ namespace GMTK2022
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            
+            _spriteContent = ContentLoader.LoadListContent<Texture2D>(Content, "Graphics");
+            //_musicContent = ContentLoader.LoadListContent<SoundEffect>(Content, "Music");
+            //_SFXContent = ContentLoader.LoadListContent<SoundEffect>(Content, "SoundEffects");
+
+            Sprite lilguy = new Sprite(_spriteContent["lilguy"], Vector2.One * 75);
+            Sprite.Add(lilguy);
         }
 
         protected override void Update(GameTime gameTime)
