@@ -13,11 +13,22 @@ namespace GMTK2022
     {
         public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
+        public Color Color { get; set; }
+
+        public Sprite()
+        {
+
+        }
 
         public Sprite(Texture2D texture, Vector2 position)
         {
             Texture = texture;
             Position = position;
+        }
+
+        public void Init()
+        {
+            Color = Color.White;
         }
 
         public static void Add(Sprite sprite)
@@ -37,7 +48,7 @@ namespace GMTK2022
 
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(Texture, Position, Color.White);
+            sb.Draw(Texture, Position, Color);
         }
     }
 }

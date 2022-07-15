@@ -23,6 +23,8 @@ namespace GMTK2022
         public static Dictionary<string, SoundEffect> _musicContent;
         public static Dictionary<string, SoundEffect> _SFXContent;
 
+        public static SpriteFont _font;
+
         public static Random _rand;
 
         public static bool KeyPress(Keys key)
@@ -56,10 +58,12 @@ namespace GMTK2022
 
             _spriteContent = ContentLoader.LoadListContent<Texture2D>(Content, "Graphics");
             //_musicContent = ContentLoader.LoadListContent<SoundEffect>(Content, "Music");
-            //_SFXContent = ContentLoader.LoadListContent<SoundEffect>(Content, "SoundEffects");
+            _SFXContent = ContentLoader.LoadListContent<SoundEffect>(Content, "SoundEffects");
 
-            Sprite lilguy = new Sprite(_spriteContent["lilguy"], Vector2.One * 75);
-            Sprite.Add(lilguy);
+            for (int i = 0; i < 4; i++)
+                Sprite.Add(new Creature(6));
+
+            _font = Content.Load<SpriteFont>("font");
         }
 
         protected override void Update(GameTime gameTime)
