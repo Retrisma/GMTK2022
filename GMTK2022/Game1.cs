@@ -19,6 +19,9 @@ namespace GMTK2022
         public static List<Sprite> _spritesToAdd;
         public static List<Sprite> _spritesToRemove;
 
+        public static List<BoxButton> buttons;
+        private Texture2D box_fill;
+
         public static Dictionary<string, Texture2D> _spriteContent;
         public static Dictionary<string, SoundEffect> _musicContent;
         public static Dictionary<string, SoundEffect> _SFXContent;
@@ -52,6 +55,11 @@ namespace GMTK2022
 
             _rand = new Random(Guid.NewGuid().GetHashCode());
 
+            // Create UI buttons.
+            buttons = new List<BoxButton>();
+            buttons.Add(new BoxButton("Test Button", 16, 16, 100, 50, Color.Black, Color.LightGray));
+            buttons.Add(new BoxButton("Other Button", 132, 16, 100, 50, Color.Black, Color.LightGray));
+
             base.Initialize();
         }
 
@@ -67,6 +75,8 @@ namespace GMTK2022
                 Sprite.Add(new Creature(6));
 
             _font = Content.Load<SpriteFont>("font");
+
+            box_fill = Content.Load<Texture2D>("Graphics/Pixel");
         }
 
         protected override void Update(GameTime gameTime)
@@ -90,6 +100,11 @@ namespace GMTK2022
                 sprite.Update(gameTime);
             }
 
+            foreach (BoxButton button in buttons)
+            {
+                button.Update(gameTime);
+            }
+
             _previousState = _state;
 
             base.Update(gameTime);
@@ -104,6 +119,12 @@ namespace GMTK2022
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);
+            }
+
+            foreach (BoxButton button in buttons)
+            {
+                button.Fill(box_fill, _spriteBatch);
+                button.DrawText(_spriteBatch, _font);
             }
 
             _spriteBatch.End();
