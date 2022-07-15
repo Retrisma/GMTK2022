@@ -14,6 +14,12 @@ namespace GMTK2022
         public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
         public Color Color { get; set; }
+        public Rectangle? Source { get; set; }
+
+        public float Width { get; set; }
+        public float Height { get; set; }
+        public Vector2 Origin { get; set; }
+        public Vector2 Scale { get; set; }
 
         public Sprite()
         {
@@ -29,6 +35,9 @@ namespace GMTK2022
         public void Init()
         {
             Color = Color.White;
+            Source = null;
+            Origin = Vector2.Zero;
+            Scale = Vector2.One;
         }
 
         public static void Add(Sprite sprite)
@@ -48,7 +57,7 @@ namespace GMTK2022
 
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(Texture, Position, Color);
+            sb.Draw(Texture, Position, Source, Color, 0, Origin, Scale, SpriteEffects.None, 0f);
         }
     }
 }

@@ -32,7 +32,7 @@ namespace GMTK2022
 
             RollCooldown = Rand.Next(20);
 
-            Texture = Game1._spriteContent["lilguy"];
+            Texture = Game1._spriteContent["dice"];
             Position = position;
             Size = size;
         }
@@ -43,7 +43,7 @@ namespace GMTK2022
 
             RollCooldown = Rand.Next(20);
 
-            Texture = Game1._spriteContent["lilguy"];
+            Texture = Game1._spriteContent["dice"];
             Position = new Vector2(Rand.Next(600), Rand.Next(400));
             Size = size;
         }
@@ -63,6 +63,7 @@ namespace GMTK2022
             }
 
             Outcome = x.ToString();
+            Sprite.Add(new Number(this.Position + new Vector2(16, -10), x));
         }
 
         public void Baby()
@@ -83,7 +84,7 @@ namespace GMTK2022
             if (RollCooldown == 0 && !this.Dead)
             {
                 Roll();
-                RollCooldown = 20;
+                RollCooldown = 60;
             }
             else if (RollCooldown == -20)
                 this.Remove();
@@ -95,7 +96,7 @@ namespace GMTK2022
         {
             base.Draw(sb);
 
-            sb.DrawString(Game1._font, Outcome, this.Position, Color.Black, 0, Vector2.Zero, 5, SpriteEffects.None, 0f);
+            //sb.DrawString(Game1._font, Outcome, this.Position, Color.Black, 0, Vector2.Zero, 5, SpriteEffects.None, 0f);
         }
     }
 }
