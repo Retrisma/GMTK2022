@@ -31,7 +31,7 @@ namespace GMTK2022
             Parent = creature;
             Texture = TextureList[0];
             Position = Parent.Position;
-            LayerDepth = 1;
+            LayerDepth = 0.8f;
         }
 
         public override void Update(GameTime gt)

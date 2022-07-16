@@ -28,6 +28,7 @@ namespace GMTK2022
             Source = new Rectangle((Value - 1) * 16, 0, (int)Width, (int)Height);
             Origin = new Vector2(8, 8);
             Scale = new Vector2(2, 2);
+            LayerDepth = 0.6f;
         }
 
         public override void Update(GameTime gt)

@@ -53,7 +53,7 @@ namespace GMTK2022
             Position = position;
             Size = size;
             Dish = dish;
-            LayerDepth = 0;
+            LayerDepth = (float)(Rand.NextDouble() / 10) + 0.9f;
 
             Emotion = new Emotion(this);
             Sprite.Add(Emotion);
@@ -125,6 +125,7 @@ namespace GMTK2022
             this.Dead = true;
             this.Color = Color.Red;
             this.Emotion.Remove();
+            this.Dish.Creatures.Remove(this);
 
             DeathSoundEffects[Rand.Next(3)].Play();
         }

@@ -59,9 +59,9 @@ namespace GMTK2022
 
             // Create UI rectangles.
             ui_rects = new List<UiRect>();
-            ui_rects.Add(new UiRect(960, 0, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77))); // dish 1 pips
-            ui_rects.Add(new UiRect(0, 0, 100, 540, new Color(214, 102, 113), new Color(164, 52, 63))); // dish 2 pips
-            ui_rects.Add(new UiRect(0, 0, 1060, 100, new Color(71, 79, 83), new Color(21, 29, 33))); // shop
+            ui_rects.Add(new UiRect(960, 100, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77))); // dish 1 pips
+            ui_rects.Add(new UiRect(0, 100, 100, 540, new Color(214, 102, 113), new Color(164, 52, 63))); // dish 2 pips
+            ui_rects.Add(new UiRect(0, 0, 660, 100, new Color(71, 79, 83), new Color(21, 29, 33))); // shop
             ui_rects.Add(new UiRect(660, 0, 300, 100, new Color(210, 226, 214), new Color(160, 176, 164))); // library
             ui_rects.Add(new UiRect(960, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141))); // stats
 
@@ -71,6 +71,9 @@ namespace GMTK2022
             buttons.Add(new BoxButton("$100", 220, 25, 100, 50, Color.Black, Color.LightGray));
             buttons.Add(new BoxButton("$150", 334, 25, 100, 50, Color.Black, Color.LightGray));
             buttons.Add(new BoxButton("$200", 446, 25, 100, 50, Color.Black, Color.LightGray));
+
+            _sprites.AddRange(buttons);
+            _sprites.AddRange(ui_rects);
 
             base.Initialize();
         }
@@ -88,6 +91,8 @@ namespace GMTK2022
 
             _sprites.Add(new PetriDish(new Vector2(120, 120)));
             _sprites.Add(new PetriDish(new Vector2(540, 120)));
+
+            _sprites.Add(new Draggable(_spriteContent["RollAlone"], 70, 70));
 
             _font = Content.Load<SpriteFont>("font");
 
@@ -115,11 +120,6 @@ namespace GMTK2022
                 sprite.Update(gameTime);
             }
 
-            foreach (BoxButton button in buttons)
-            {
-                button.Update(gameTime);
-            }
-
             _previousState = _state;
 
             base.Update(gameTime);
@@ -129,29 +129,18 @@ namespace GMTK2022
         {
             GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 10f, 0);
 
-            _spriteBatch.Begin(samplerState:SamplerState.PointClamp);
+            _spriteBatch.Begin(SpriteSortMode.BackToFront, samplerState:SamplerState.PointClamp);
 
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);
             }
 
-            foreach (UiRect ui_rect in ui_rects)
-            {
-                ui_rect.Fill(box_fill, _spriteBatch);
-            }
-
-            foreach (BoxButton button in buttons)
-            {
-                button.Fill(box_fill, _spriteBatch);
-                button.DrawText(_spriteBatch, _font);
-            }
-
-            _spriteBatch.DrawString(_font, "SHOP", new Vector2(330 - (_font.MeasureString("SHOP") / 2).X, 6), Color.White);
-            _spriteBatch.DrawString(_font, "LIBRARY", new Vector2(760 - (_font.MeasureString("LIBRARY") / 2).X, 6), Color.Black);
-            _spriteBatch.DrawString(_font, "STATS?", new Vector2(1010 - (_font.MeasureString("STATS?") / 2).X, 6), Color.Black);
-            _spriteBatch.DrawString(_font, "DISH 1", new Vector2(50 - (_font.MeasureString("DISH 1") / 2).X, 106), Color.Black);
-            _spriteBatch.DrawString(_font, "DISH 2", new Vector2(1010 - (_font.MeasureString("DISH 2") / 2).X, 106), Color.Black);
+            _spriteBatch.DrawString(_font, "SHOP", new Vector2(330 - (_font.MeasureString("SHOP") / 2).X, 6), Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
+            _spriteBatch.DrawString(_font, "LIBRARY", new Vector2(760 - (_font.MeasureString("LIBRARY") / 2).X, 6), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
+            _spriteBatch.DrawString(_font, "STATS?", new Vector2(1010 - (_font.MeasureString("STATS?") / 2).X, 6), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
+            _spriteBatch.DrawString(_font, "DISH 1", new Vector2(50 - (_font.MeasureString("DISH 1") / 2).X, 106), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
+            _spriteBatch.DrawString(_font, "DISH 2", new Vector2(1010 - (_font.MeasureString("DISH 2") / 2).X, 106), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
 
             _spriteBatch.End();
 

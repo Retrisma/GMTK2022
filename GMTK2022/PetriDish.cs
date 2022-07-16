@@ -20,7 +20,8 @@ namespace GMTK2022
 
             Texture = Game1._spriteContent["petridish"];
             Position = position;
-            LayerDepth = 0;
+            LayerDepth = 1f;
+            Scale = new Vector2(400f / 512f);
 
             Creatures = new List<Creature>();
             Populate();

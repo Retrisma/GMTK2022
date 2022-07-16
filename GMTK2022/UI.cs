@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Audio;
 namespace GMTK2022
 {
     //////////////////////////////////////////////////////////////////////////////
-    public class UiRect
+    public class UiRect : Sprite
     {
         private Rectangle rect;
         private Color fill_color;
@@ -25,14 +25,19 @@ namespace GMTK2022
 
         public void Fill(Texture2D fill, SpriteBatch sb)
         {
-            sb.Draw(fill, new Vector2(rect.X, rect.Y), new Rectangle(0, 0, 1, 1), border_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width, rect.Height), SpriteEffects.None, 0f);
-            sb.Draw(fill, new Vector2(rect.X + border_size, rect.Y + border_size), new Rectangle(0, 0, 1, 1), fill_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width - (border_size * 2), rect.Height - (border_size * 2)), SpriteEffects.None, 0f);
+            sb.Draw(fill, new Vector2(rect.X, rect.Y), new Rectangle(0, 0, 1, 1), border_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width, rect.Height), SpriteEffects.None, 0.9f);
+            sb.Draw(fill, new Vector2(rect.X + border_size, rect.Y + border_size), new Rectangle(0, 0, 1, 1), fill_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width - (border_size * 2), rect.Height - (border_size * 2)), SpriteEffects.None, 0.8f);
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            Fill(Game1._spriteContent["Pixel"], sb);
         }
     }
     //////////////////////////////////////////////////////////////////////////////
 
     //////////////////////////////////////////////////////////////////////////////
-    public class BoxButton
+    public class BoxButton : Sprite
     {
         private Rectangle rect;
         private string text;
@@ -54,7 +59,7 @@ namespace GMTK2022
             border_color = _border_color;
         }
 
-        public virtual void Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
             mouse_state = Mouse.GetState();
             Vector2 mouse_pos = new Vector2(mouse_state.X, mouse_state.Y);
@@ -92,14 +97,20 @@ namespace GMTK2022
                 //Mouse.SetCursor(MouseCursor.Arrow);
             }
 
-            sb.Draw(fill, new Vector2(rect.X, rect.Y), new Rectangle(0, 0, 1, 1), current_border_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width, rect.Height), SpriteEffects.None, 0f);
-            sb.Draw(fill, new Vector2(rect.X + border_size, rect.Y + border_size), new Rectangle(0, 0, 1, 1), current_fill_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width - (border_size * 2), rect.Height - (border_size * 2)), SpriteEffects.None, 0f);
+            sb.Draw(fill, new Vector2(rect.X, rect.Y), new Rectangle(0, 0, 1, 1), current_border_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width, rect.Height), SpriteEffects.None, 0.22f);
+            sb.Draw(fill, new Vector2(rect.X + border_size, rect.Y + border_size), new Rectangle(0, 0, 1, 1), current_fill_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width - (border_size * 2), rect.Height - (border_size * 2)), SpriteEffects.None, 0.21f);
         }
 
         public void DrawText(SpriteBatch sb, SpriteFont font)
         {
             Vector2 textMiddlePoint = font.MeasureString(text) / 2;
-            sb.DrawString(Game1._font, text, rect.Center.ToVector2(), current_border_color, 0, textMiddlePoint, 1, SpriteEffects.None, 0f);
+            sb.DrawString(Game1._font, text, rect.Center.ToVector2(), current_border_color, 0, textMiddlePoint, 1, SpriteEffects.None, 0.2f);
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            Fill(Game1._spriteContent["Pixel"], sb);
+            DrawText(sb, Game1._font);
         }
     }
     //////////////////////////////////////////////////////////////////////////////
@@ -107,16 +118,50 @@ namespace GMTK2022
     //////////////////////////////////////////////////////////////////////////////
     public class Draggable : Sprite
     {
+        private MouseState mouse_state;
+        private Rectangle Bounds;
+        public bool Holding = false;
+
         public Draggable(Texture2D texture, int x, int y)
         {
+            Init();
             Texture = texture;
             Position = new Vector2(x, y);
-            Add(this);
+            Width = texture.Width;
+            Height = texture.Height;
+            Bounds = new Rectangle(x, y, (int)Width, (int)Height);
+            LayerDepth = 0.1f;
         }
 
-        public override void Draw(SpriteBatch sb)
+        public override void Update(GameTime gt)
         {
-            sb.Draw(Texture, Position, null, Color.White, 0.0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            mouse_state = Mouse.GetState();
+            Vector2 mouse_pos = new Vector2(mouse_state.X, mouse_state.Y);
+
+            if (mouse_state.LeftButton != ButtonState.Pressed)
+                Holding = false;
+
+            if ((Bounds.Contains(mouse_pos) && mouse_state.LeftButton == ButtonState.Pressed && (!HoldingAnyOtherDraggable())) || Holding)
+            {
+                Holding = true;
+                this.Position = mouse_pos - new Vector2((int)(Width / 2), (int)(Height / 2));
+                Bounds = new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)Width, (int)Height);
+            }
+        }
+
+        public bool HoldingAnyOtherDraggable()
+        {
+            foreach (Sprite sprite in Game1._sprites)
+            {
+                if (sprite != this && sprite.GetType() == typeof(Draggable))
+                {
+                    Draggable sp = (Draggable)sprite;
+                    if (sp.Holding == true)
+                        return true;
+                }
+            }
+
+            return false;
         }
     }
 }
