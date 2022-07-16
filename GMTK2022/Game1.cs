@@ -15,6 +15,9 @@ namespace GMTK2022
         public static KeyboardState _state;
         public static KeyboardState _previousState;
 
+        public static MouseState _mouseState;
+        public static MouseState _previousMouseState;
+
         public static List<Sprite> _sprites;
         public static List<Sprite> _spritesToAdd;
         public static List<Sprite> _spritesToRemove;
@@ -89,10 +92,11 @@ namespace GMTK2022
             //for (int i = 0; i < 20; i++)
             //    Sprite.Add(new Creature(6));
 
-            _sprites.Add(new PetriDish(new Vector2(120, 120)));
-            _sprites.Add(new PetriDish(new Vector2(540, 120)));
+            _sprites.Add(new PetriDish(new Vector2(120, 120), true)); //left petri
+            _sprites.Add(new PetriDish(new Vector2(540, 120), false)); //right petri
 
-            _sprites.Add(new Draggable(_spriteContent["RollAlone"], 70, 70));
+            _sprites.Add(Domino.RandomDomino(new Vector2(70)));
+            _sprites.Add(Domino.RandomDomino(new Vector2(100)));
 
             _font = Content.Load<SpriteFont>("font");
 
@@ -105,6 +109,7 @@ namespace GMTK2022
                 Exit();
 
             _state = Keyboard.GetState();
+            _mouseState = Mouse.GetState();
 
             foreach (Sprite sprite in _spritesToRemove)
             {
@@ -121,6 +126,7 @@ namespace GMTK2022
             }
 
             _previousState = _state;
+            _previousMouseState = _mouseState;
 
             base.Update(gameTime);
         }

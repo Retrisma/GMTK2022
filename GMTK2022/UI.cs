@@ -11,7 +11,7 @@ namespace GMTK2022
     //////////////////////////////////////////////////////////////////////////////
     public class UiRect : Sprite
     {
-        private Rectangle rect;
+        public Rectangle rect { get; set; }
         private Color fill_color;
         private Color border_color;
         private int border_size = 1;
@@ -21,17 +21,19 @@ namespace GMTK2022
             rect = new Rectangle(pos_x, pos_y, width, height);
             fill_color = _fill_color;
             border_color = _border_color;
+            LayerDepth = 0.8f;
         }
 
         public void Fill(Texture2D fill, SpriteBatch sb)
         {
-            sb.Draw(fill, new Vector2(rect.X, rect.Y), new Rectangle(0, 0, 1, 1), border_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width, rect.Height), SpriteEffects.None, 0.9f);
-            sb.Draw(fill, new Vector2(rect.X + border_size, rect.Y + border_size), new Rectangle(0, 0, 1, 1), fill_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width - (border_size * 2), rect.Height - (border_size * 2)), SpriteEffects.None, 0.8f);
+            sb.Draw(fill, new Vector2(rect.X, rect.Y), new Rectangle(0, 0, 1, 1), border_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width, rect.Height), SpriteEffects.None, LayerDepth + 0.01f);
+            sb.Draw(fill, new Vector2(rect.X + border_size, rect.Y + border_size), new Rectangle(0, 0, 1, 1), fill_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width - (border_size * 2), rect.Height - (border_size * 2)), SpriteEffects.None, LayerDepth);
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            Fill(Game1._spriteContent["Pixel"], sb);
+            if (IsVisible)
+                Fill(Game1._spriteContent["Pixel"], sb);
         }
     }
     //////////////////////////////////////////////////////////////////////////////
@@ -118,34 +120,43 @@ namespace GMTK2022
     //////////////////////////////////////////////////////////////////////////////
     public class Draggable : Sprite
     {
-        private MouseState mouse_state;
-        private Rectangle Bounds;
+        public Rectangle Bounds;
         public bool Holding = false;
+        public bool WasHeldLastFrame = false;
+        public bool Clickable = true;
 
-        public Draggable(Texture2D texture, int x, int y)
+        public Draggable(Texture2D texture, Vector2 position)
         {
             Init();
             Texture = texture;
-            Position = new Vector2(x, y);
+            Position = position;
             Width = texture.Width;
             Height = texture.Height;
-            Bounds = new Rectangle(x, y, (int)Width, (int)Height);
+            Bounds = new Rectangle((int)position.X, (int)position.Y, (int)Width, (int)Height);
             LayerDepth = 0.1f;
         }
 
         public override void Update(GameTime gt)
         {
-            mouse_state = Mouse.GetState();
-            Vector2 mouse_pos = new Vector2(mouse_state.X, mouse_state.Y);
+            WasHeldLastFrame = false;
 
-            if (mouse_state.LeftButton != ButtonState.Pressed)
-                Holding = false;
-
-            if ((Bounds.Contains(mouse_pos) && mouse_state.LeftButton == ButtonState.Pressed && (!HoldingAnyOtherDraggable())) || Holding)
+            if (Clickable)
             {
-                Holding = true;
-                this.Position = mouse_pos - new Vector2((int)(Width / 2), (int)(Height / 2));
-                Bounds = new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)Width, (int)Height);
+                MouseState mouse_state = Mouse.GetState();
+                Vector2 mouse_pos = new Vector2(mouse_state.X, mouse_state.Y);
+
+                if (mouse_state.LeftButton != ButtonState.Pressed && Holding)
+                {
+                    Holding = false;
+                    WasHeldLastFrame = true;
+                }
+
+                if ((Bounds.Contains(mouse_pos) && mouse_state.LeftButton == ButtonState.Pressed && (!HoldingAnyOtherDraggable())) || Holding)
+                {
+                    Holding = true;
+                    this.Position = mouse_pos - new Vector2((int)(Width / 2), (int)(Height / 2));
+                    Bounds = new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)Width, (int)Height);
+                }
             }
         }
 

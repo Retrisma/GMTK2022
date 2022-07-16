@@ -36,6 +36,9 @@ namespace GMTK2022
         public int Antisocial = 0;
         public int Social = 0;
 
+        public int Blueness = 0;
+        public int BlueGene = 0;
+
         List<SoundEffect> DeathSoundEffects = new List<SoundEffect>
         {
             Game1._SFXContent["death1"],
@@ -49,7 +52,7 @@ namespace GMTK2022
 
             RollCooldown = Rand.Next(120);
 
-            Texture = Game1._spriteContent["dice"];
+            Texture = Game1._spriteContent[$"{Rand.Next(6) + 1}up{Rand.Next(3) + 1}"];
             Position = position;
             Size = size;
             Dish = dish;
@@ -61,6 +64,21 @@ namespace GMTK2022
             Anger = Rand.Next(10);
             Antisocial = Rand.Next(10);
             Social = Rand.Next(10);
+        }
+
+        int Mid(int x, int min, int max)
+        {
+            return Math.Min(Math.Max(min, x), max);
+        }
+
+        public void SnapAttributes()
+        {
+            Anger = Mid(Anger, 0, 10);
+            Antisocial = Mid(Antisocial, 0, 10);
+            Social = Mid(Social, 0, 10);
+
+            Blueness = Mid(Blueness, 0, 255);
+            BlueGene = Mid(Blueness, 0, 255);
         }
 
         public void Emotions(int angerMod = 0, int antisocialMod = 0, int socialMod = 0)
@@ -75,10 +93,6 @@ namespace GMTK2022
                 this.Antisocial -= 1;
             if (Rand.Next(2) == 0)
                 this.Social -= 1;
-
-            this.Anger = Math.Max(Math.Min(this.Anger, 10), 0);
-            this.Antisocial = Math.Max(Math.Min(this.Antisocial, 10), 0);
-            this.Social = Math.Max(Math.Min(this.Social, 10), 0);
         }
 
         public void Roll()
@@ -91,13 +105,16 @@ namespace GMTK2022
                     Old();
                     break;
                 case 2:
-                    Emotions(1);
+                    if (this.Dish.Slots[1].Domino != null)
+                        this.Dish.Slots[1].Domino.Action(this);
                     break;
                 case 3:
-                    Emotions(0, 1);
+                    if (this.Dish.Slots[2].Domino != null)
+                        this.Dish.Slots[2].Domino.Action(this);
                     break;
                 case 4:
-                    Emotions(0, 0, 1);
+                    if (this.Dish.Slots[3].Domino != null)
+                        this.Dish.Slots[3].Domino.Action(this);
                     break;
                 case 6:
                     Baby();
@@ -110,7 +127,13 @@ namespace GMTK2022
         public void Baby()
         {
             if (this.Dish.Creatures.Count < this.Dish.Cap)
-                this.Dish.AddCreatureToPetriDish(new Creature(Dish.GenerateAcceptablePosition(), this.Size, this.Dish));
+            {
+                Creature newCreature = new Creature(Dish.GenerateAcceptablePosition(), this.Size, this.Dish);
+
+                newCreature.Blueness = BlueGene;
+
+                this.Dish.AddCreatureToPetriDish(newCreature);
+            }
         }
 
         public void Old()
@@ -196,6 +219,8 @@ namespace GMTK2022
 
         public override void Update(GameTime gt)
         {
+            Color = new Color(255, 255, 255 - Blueness);
+
             if (RollCooldown == 0 && !this.Dead && !this.Moving)
             {
                 if (Rand.Next(2) == 0)
@@ -212,6 +237,8 @@ namespace GMTK2022
 
             if (this.Moving)
                 Move();
+
+            SnapAttributes();
         }
 
         public override void Draw(SpriteBatch sb)

@@ -15,12 +15,13 @@ namespace GMTK2022
         public Vector2 Position { get; set; }
         public Color Color { get; set; }
         public Rectangle? Source { get; set; }
-
+        public float Rotation { get; set; }
         public float Width { get; set; }
         public float Height { get; set; }
         public Vector2 Origin { get; set; }
         public Vector2 Scale { get; set; }
         public float LayerDepth { get; set; }
+        public SpriteEffects SpriteEffects { get; set; }
 
         public bool IsVisible = true;
 
@@ -37,10 +38,12 @@ namespace GMTK2022
 
         public void Init()
         {
+            Rotation = 0;
             Color = Color.White;
             Source = null;
             Origin = Vector2.Zero;
             Scale = Vector2.One;
+            SpriteEffects = SpriteEffects.None;
             LayerDepth = 1f;
         }
 
@@ -62,7 +65,7 @@ namespace GMTK2022
         public virtual void Draw(SpriteBatch sb)
         {
             if (this.IsVisible)
-                sb.Draw(Texture, Position, Source, Color, 0, Origin, Scale, SpriteEffects.None, LayerDepth);
+                sb.Draw(Texture, Position, Source, Color, Rotation, Origin, Scale, SpriteEffects, LayerDepth);
         }
     }
 }

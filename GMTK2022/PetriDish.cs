@@ -12,9 +12,11 @@ namespace GMTK2022
     public class PetriDish : Sprite
     {
         public List<Creature> Creatures;
+        public List<Slot> Slots;
+        public bool LeftOrRight { get; set; }
         public int Cap = 20;
 
-        public PetriDish(Vector2 position)
+        public PetriDish(Vector2 position, bool leftOrRight)
         {
             Init();
 
@@ -22,6 +24,15 @@ namespace GMTK2022
             Position = position;
             LayerDepth = 1f;
             Scale = new Vector2(400f / 512f);
+            LeftOrRight = leftOrRight;
+
+            Slots = new List<Slot>();
+            for (int i = 1; i <= 6; i++)
+            {
+                Slot x = new Slot(i, leftOrRight, this);
+                Sprite.Add(x);
+                Slots.Add(x);
+            }
 
             Creatures = new List<Creature>();
             Populate();
