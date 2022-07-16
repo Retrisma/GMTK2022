@@ -82,8 +82,11 @@ namespace GMTK2022
             //_musicContent = ContentLoader.LoadListContent<SoundEffect>(Content, "Music");
             _SFXContent = ContentLoader.LoadListContent<SoundEffect>(Content, "SoundEffects");
 
-            for (int i = 0; i < 4; i++)
-                Sprite.Add(new Creature(6));
+            //for (int i = 0; i < 20; i++)
+            //    Sprite.Add(new Creature(6));
+
+            _sprites.Add(new PetriDish(new Vector2(20, 120)));
+            _sprites.Add(new PetriDish(new Vector2(440, 120)));
 
             _font = Content.Load<SpriteFont>("font");
 

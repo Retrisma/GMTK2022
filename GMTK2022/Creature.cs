@@ -12,6 +12,7 @@ namespace GMTK2022
     public class Creature : Sprite
     {
         int Size { get; set; }
+        PetriDish Dish { get; set; }
 
         Random Rand = new Random(Guid.NewGuid().GetHashCode());
 
@@ -22,7 +23,7 @@ namespace GMTK2022
         bool Moving = false;
 
         static int UpperBound = 100;
-        static int RightBound = 860;
+        static int RightBound = 830;
 
         static int XPathing = 30;
         static int YPathing = 16;
@@ -34,7 +35,7 @@ namespace GMTK2022
             Game1._SFXContent["death3"]
         };
 
-        public Creature(Vector2 position, int size)
+        public Creature(Vector2 position, int size, PetriDish dish)
         {
             Init();
 
@@ -43,6 +44,7 @@ namespace GMTK2022
             Texture = Game1._spriteContent["dice"];
             Position = position;
             Size = size;
+            Dish = dish;
         }
 
         public Creature(int size)
@@ -75,7 +77,7 @@ namespace GMTK2022
 
         public void Baby()
         {
-            Sprite.Add(new Creature(this.Size));
+            Sprite.Add(new Creature(Dish.GenerateAcceptablePosition(), this.Size, this.Dish));
         }
 
         public void Kill()
@@ -89,8 +91,17 @@ namespace GMTK2022
         public void Path()
         {
             Moving = true;
-            Vector2 Destination = new Vector2(Math.Max(Math.Min(this.Position.X + Rand.Next(2 * XPathing) - XPathing, RightBound), 0), 
-                Math.Max(UpperBound, Math.Min(540, this.Position.Y + Rand.Next(2 * YPathing) - YPathing)));
+            Vector2 Destination;
+
+            while (true)
+            {
+                Destination = new Vector2(Math.Max(Math.Min(this.Position.X + Rand.Next(2 * XPathing) - XPathing, RightBound - 32), 0),
+                    Math.Max(UpperBound, Math.Min(540, this.Position.Y + Rand.Next(2 * YPathing) - YPathing)));
+
+                if (Dish.AcceptablePosition(Destination))
+                    break;
+            }
+            
             Lerper = new Lerper(this.Position, Destination);
         }
 
