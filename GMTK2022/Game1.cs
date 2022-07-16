@@ -59,11 +59,11 @@ namespace GMTK2022
 
             // Create UI rectangles.
             ui_rects = new List<UiRect>();
-            ui_rects.Add(new UiRect(0, 0, 960, 100, new Color(71, 79, 83), new Color(21, 29, 33)));
-            ui_rects.Add(new UiRect(860, 0, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77)));
-            ui_rects.Add(new UiRect(560, 0, 300, 100, new Color(210, 226, 214), new Color(160, 176, 164)));
-            ui_rects.Add(new UiRect(860, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141)));
-            ui_rects.Add(new UiRect(0, 0, 100, 540, new Color(214, 102, 113), new Color(164, 52, 63)));
+            ui_rects.Add(new UiRect(960, 0, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77))); // dish 1 pips
+            ui_rects.Add(new UiRect(0, 0, 100, 540, new Color(214, 102, 113), new Color(164, 52, 63))); // dish 2 pips
+            ui_rects.Add(new UiRect(0, 0, 1060, 100, new Color(71, 79, 83), new Color(21, 29, 33))); // shop
+            ui_rects.Add(new UiRect(660, 0, 300, 100, new Color(210, 226, 214), new Color(160, 176, 164))); // library
+            ui_rects.Add(new UiRect(960, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141))); // stats
 
             // Create UI buttons.
             buttons = new List<BoxButton>();
@@ -146,6 +146,12 @@ namespace GMTK2022
                 button.Fill(box_fill, _spriteBatch);
                 button.DrawText(_spriteBatch, _font);
             }
+
+            _spriteBatch.DrawString(_font, "SHOP", new Vector2(330 - (_font.MeasureString("SHOP") / 2).X, 6), Color.White);
+            _spriteBatch.DrawString(_font, "LIBRARY", new Vector2(760 - (_font.MeasureString("LIBRARY") / 2).X, 6), Color.Black);
+            _spriteBatch.DrawString(_font, "STATS?", new Vector2(1010 - (_font.MeasureString("STATS?") / 2).X, 6), Color.Black);
+            _spriteBatch.DrawString(_font, "DISH 1", new Vector2(50 - (_font.MeasureString("DISH 1") / 2).X, 106), Color.Black);
+            _spriteBatch.DrawString(_font, "DISH 2", new Vector2(1010 - (_font.MeasureString("DISH 2") / 2).X, 106), Color.Black);
 
             _spriteBatch.End();
 
