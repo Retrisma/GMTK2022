@@ -11,7 +11,8 @@ namespace GMTK2022
 {
     public class PetriDish : Sprite
     {
-        List<Creature> creatures;
+        public List<Creature> Creatures;
+        public int Cap = 20;
 
         public PetriDish(Vector2 position)
         {
@@ -20,7 +21,7 @@ namespace GMTK2022
             Texture = Game1._spriteContent["petridish"];
             Position = position;
 
-            creatures = new List<Creature>();
+            Creatures = new List<Creature>();
             Populate();
         }
 
@@ -51,13 +52,13 @@ namespace GMTK2022
 
         void Populate()
         {
-            while (creatures.Count < 10)
+            while (Creatures.Count < 10)
             {
                 Vector2 z = GenerateAcceptablePosition();
 
                 Creature c = new Creature(z, 6, this);
                 Sprite.Add(c);
-                creatures.Add(c);
+                Creatures.Add(c);
             }
         }
     }

@@ -28,6 +28,9 @@ namespace GMTK2022
         static int XPathing = 30;
         static int YPathing = 16;
 
+        int Age = 0;
+        int Lifespan = 3;
+
         List<SoundEffect> DeathSoundEffects = new List<SoundEffect>
         {
             Game1._SFXContent["death1"],
@@ -65,7 +68,7 @@ namespace GMTK2022
             switch (x)
             {
                 case 1:
-                    Kill();
+                    Old();
                     break;
                 case 6:
                     Baby();
@@ -78,6 +81,13 @@ namespace GMTK2022
         public void Baby()
         {
             Sprite.Add(new Creature(Dish.GenerateAcceptablePosition(), this.Size, this.Dish));
+        }
+
+        public void Old()
+        {
+            Age++;
+            if (Age >= Lifespan)
+                Kill();
         }
 
         public void Kill()
