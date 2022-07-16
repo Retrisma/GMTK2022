@@ -59,6 +59,8 @@ namespace GMTK2022
             Position = position;
             Name = name;
             Description = description;
+            LayerDepth = (float)Game1._rand.NextDouble() / 100 + 0.03f;
+
             UiRect = new UiRect(0, 0, 0, 0, Color.Lavender, Color.Purple);
             UiRect.IsVisible = false;
             UiRect.LayerDepth = 0.02f;
@@ -70,13 +72,13 @@ namespace GMTK2022
             switch (Value)
             {
                 case 1:
-                    creature.BlueGene += 10;
+                    creature.BlueGene += 100;
                     break;
                 case 2:
-                    creature.Emotions(0, 0, 1);
+                    creature.Emotions(0, 0, 5);
                     break;
                 case 4:
-                    creature.Emotions(0, 1, 0);
+                    creature.Emotions(0, 5, 0);
                     break;
             }
         }

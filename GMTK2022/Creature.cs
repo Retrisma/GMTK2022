@@ -60,10 +60,6 @@ namespace GMTK2022
 
             Emotion = new Emotion(this);
             Sprite.Add(Emotion);
-
-            Anger = Rand.Next(10);
-            Antisocial = Rand.Next(10);
-            Social = Rand.Next(10);
         }
 
         int Mid(int x, int min, int max)
@@ -86,13 +82,6 @@ namespace GMTK2022
             this.Anger = this.Anger + angerMod;
             this.Antisocial = this.Antisocial + antisocialMod;
             this.Social = this.Social + socialMod;
-
-            if (Rand.Next(2) == 0)
-                this.Anger -= 1;
-            if (Rand.Next(2) == 0)
-                this.Antisocial -= 1;
-            if (Rand.Next(2) == 0)
-                this.Social -= 1;
         }
 
         public void Roll()
