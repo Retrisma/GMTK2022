@@ -20,9 +20,16 @@ namespace GMTK2022
 
             Texture = Game1._spriteContent["petridish"];
             Position = position;
+            LayerDepth = 0;
 
             Creatures = new List<Creature>();
             Populate();
+        }
+
+        public void AddCreatureToPetriDish(Creature c)
+        {
+            Sprite.Add(c);
+            Creatures.Add(c);
         }
 
         public bool AcceptablePosition(Vector2 pos)
@@ -57,8 +64,7 @@ namespace GMTK2022
                 Vector2 z = GenerateAcceptablePosition();
 
                 Creature c = new Creature(z, 6, this);
-                Sprite.Add(c);
-                Creatures.Add(c);
+                AddCreatureToPetriDish(c);
             }
         }
     }

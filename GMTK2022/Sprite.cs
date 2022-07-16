@@ -20,6 +20,9 @@ namespace GMTK2022
         public float Height { get; set; }
         public Vector2 Origin { get; set; }
         public Vector2 Scale { get; set; }
+        public float LayerDepth { get; set; }
+
+        public bool IsVisible = true;
 
         public Sprite()
         {
@@ -38,6 +41,7 @@ namespace GMTK2022
             Source = null;
             Origin = Vector2.Zero;
             Scale = Vector2.One;
+            LayerDepth = 1f;
         }
 
         public static void Add(Sprite sprite)
@@ -57,7 +61,8 @@ namespace GMTK2022
 
         public virtual void Draw(SpriteBatch sb)
         {
-            sb.Draw(Texture, Position, Source, Color, 0, Origin, Scale, SpriteEffects.None, 0f);
+            if (this.IsVisible)
+                sb.Draw(Texture, Position, Source, Color, 0, Origin, Scale, SpriteEffects.None, LayerDepth);
         }
     }
 }

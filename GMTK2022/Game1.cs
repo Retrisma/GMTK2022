@@ -47,7 +47,7 @@ namespace GMTK2022
 
         protected override void Initialize()
         {
-            _graphics.PreferredBackBufferWidth = 960;
+            _graphics.PreferredBackBufferWidth = 1060;
             _graphics.PreferredBackBufferHeight = 540;
             _graphics.ApplyChanges();
 
@@ -59,10 +59,10 @@ namespace GMTK2022
 
             ui_rects = new List<UiRect>();
             ui_rects.Add(new UiRect(0, 0, 960, 100, new Color(71, 79, 83), new Color(21, 29, 33)));
-            ui_rects.Add(new UiRect(860, 0, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77)));
-            ui_rects.Add(new UiRect(560, 0, 300, 100, new Color(210, 226, 214), new Color(160, 176, 164)));
-            ui_rects.Add(new UiRect(860, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141)));
-            ui_rects.Add(new UiRect(0, 0, 100, 540, new Color(214, 102, 113), new Color(164, 52, 63)));
+            ui_rects.Add(new UiRect(960, 0, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77)));
+            ui_rects.Add(new UiRect(660, 0, 300, 100, new Color(210, 226, 214), new Color(160, 176, 164)));
+            ui_rects.Add(new UiRect(960, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141)));
+            ui_rects.Add(new UiRect(0, 100, 100, 440, new Color(214, 102, 113), new Color(164, 52, 63)));
             
 
             // Create UI buttons.
@@ -86,8 +86,8 @@ namespace GMTK2022
             //for (int i = 0; i < 20; i++)
             //    Sprite.Add(new Creature(6));
 
-            _sprites.Add(new PetriDish(new Vector2(20, 120)));
-            _sprites.Add(new PetriDish(new Vector2(440, 120)));
+            _sprites.Add(new PetriDish(new Vector2(120, 120)));
+            _sprites.Add(new PetriDish(new Vector2(540, 120)));
 
             _font = Content.Load<SpriteFont>("font");
 
@@ -127,7 +127,7 @@ namespace GMTK2022
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(ClearOptions.Target, Color.CornflowerBlue, 10f, 0);
 
             _spriteBatch.Begin(samplerState:SamplerState.PointClamp);
 

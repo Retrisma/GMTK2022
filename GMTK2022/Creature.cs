@@ -31,6 +31,11 @@ namespace GMTK2022
         int Age = 0;
         int Lifespan = 3;
 
+        Emotion Emotion;
+        public int Anger = 0;
+        public int Antisocial = 0;
+        public int Social = 0;
+
         List<SoundEffect> DeathSoundEffects = new List<SoundEffect>
         {
             Game1._SFXContent["death1"],
@@ -48,17 +53,32 @@ namespace GMTK2022
             Position = position;
             Size = size;
             Dish = dish;
+            LayerDepth = 0;
+
+            Emotion = new Emotion(this);
+            Sprite.Add(Emotion);
+
+            Anger = Rand.Next(10);
+            Antisocial = Rand.Next(10);
+            Social = Rand.Next(10);
         }
 
-        public Creature(int size)
+        public void Emotions(int angerMod = 0, int antisocialMod = 0, int socialMod = 0)
         {
-            Init();
+            this.Anger = this.Anger + angerMod;
+            this.Antisocial = this.Antisocial + antisocialMod;
+            this.Social = this.Social + socialMod;
 
-            RollCooldown = Rand.Next(20);
+            if (Rand.Next(2) == 0)
+                this.Anger -= 1;
+            if (Rand.Next(2) == 0)
+                this.Antisocial -= 1;
+            if (Rand.Next(2) == 0)
+                this.Social -= 1;
 
-            Texture = Game1._spriteContent["dice"];
-            Position = new Vector2(Rand.Next(RightBound), Rand.Next(540 - UpperBound) + UpperBound - 32);
-            Size = size;
+            this.Anger = Math.Max(Math.Min(this.Anger, 10), 0);
+            this.Antisocial = Math.Max(Math.Min(this.Antisocial, 10), 0);
+            this.Social = Math.Max(Math.Min(this.Social, 10), 0);
         }
 
         public void Roll()
@@ -70,6 +90,15 @@ namespace GMTK2022
                 case 1:
                     Old();
                     break;
+                case 2:
+                    Emotions(1);
+                    break;
+                case 3:
+                    Emotions(0, 1);
+                    break;
+                case 4:
+                    Emotions(0, 0, 1);
+                    break;
                 case 6:
                     Baby();
                     break;
@@ -80,7 +109,8 @@ namespace GMTK2022
 
         public void Baby()
         {
-            Sprite.Add(new Creature(Dish.GenerateAcceptablePosition(), this.Size, this.Dish));
+            if (this.Dish.Creatures.Count < this.Dish.Cap)
+                this.Dish.AddCreatureToPetriDish(new Creature(Dish.GenerateAcceptablePosition(), this.Size, this.Dish));
         }
 
         public void Old()
@@ -94,8 +124,29 @@ namespace GMTK2022
         {
             this.Dead = true;
             this.Color = Color.Red;
+            this.Emotion.Remove();
 
             DeathSoundEffects[Rand.Next(3)].Play();
+        }
+
+        public int NearbyCreatures(int radius, Vector2 pos)
+        {
+            int count = 0;
+
+            foreach (Creature creature in Dish.Creatures)
+            {
+                if (creature != this)
+                {
+                    int xa = (int)(pos.X - creature.Position.X);
+                    int ya = (int)(pos.Y - creature.Position.Y);
+                    int r = radius;
+
+                    if ((xa * xa) +(ya * ya) < (r * r))  
+                        count++;
+                }
+            }
+
+            return count;
         }
 
         public void Path()
@@ -105,11 +156,27 @@ namespace GMTK2022
 
             while (true)
             {
-                Destination = new Vector2(Math.Max(Math.Min(this.Position.X + Rand.Next(2 * XPathing) - XPathing, RightBound - 32), 0),
-                    Math.Max(UpperBound, Math.Min(540, this.Position.Y + Rand.Next(2 * YPathing) - YPathing)));
+                int xr = Rand.Next(2 * XPathing);
+                int yr = Rand.Next(2 * YPathing);
+
+                
+                Destination = new Vector2(Math.Max(Math.Min(this.Position.X + xr - XPathing, RightBound - 32), 0),
+                    Math.Max(UpperBound, Math.Min(540, this.Position.Y + yr - YPathing)));
 
                 if (Dish.AcceptablePosition(Destination))
+                {
+                    int nearby = NearbyCreatures(10, this.Position);
+
+                    if (this.Antisocial >= 5)
+                        if (nearby < NearbyCreatures(10, Destination))
+                            continue;
+
+                    if (this.Social >= 5)
+                        if (nearby > NearbyCreatures(10, Destination))
+                            continue;
+
                     break;
+                }
             }
             
             Lerper = new Lerper(this.Position, Destination);
@@ -149,6 +216,8 @@ namespace GMTK2022
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
+
+            this.Emotion.DrawFromCreature(sb);
         }
     }
 }
