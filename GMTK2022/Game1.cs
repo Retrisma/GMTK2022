@@ -20,8 +20,8 @@ namespace GMTK2022
         public static List<Sprite> _spritesToRemove;
 
         private Texture2D box_fill;
-        public static List<BoxButton> buttons;
         public static List<UiRect> ui_rects;
+        public static List<BoxButton> buttons;
 
         public static Dictionary<string, Texture2D> _spriteContent;
         public static Dictionary<string, SoundEffect> _musicContent;
@@ -57,13 +57,13 @@ namespace GMTK2022
 
             _rand = new Random(Guid.NewGuid().GetHashCode());
 
+            // Create UI rectangles.
             ui_rects = new List<UiRect>();
             ui_rects.Add(new UiRect(0, 0, 960, 100, new Color(71, 79, 83), new Color(21, 29, 33)));
-            ui_rects.Add(new UiRect(960, 0, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77)));
-            ui_rects.Add(new UiRect(660, 0, 300, 100, new Color(210, 226, 214), new Color(160, 176, 164)));
-            ui_rects.Add(new UiRect(960, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141)));
-            ui_rects.Add(new UiRect(0, 100, 100, 440, new Color(214, 102, 113), new Color(164, 52, 63)));
-            
+            ui_rects.Add(new UiRect(860, 0, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77)));
+            ui_rects.Add(new UiRect(560, 0, 300, 100, new Color(210, 226, 214), new Color(160, 176, 164)));
+            ui_rects.Add(new UiRect(860, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141)));
+            ui_rects.Add(new UiRect(0, 0, 100, 540, new Color(214, 102, 113), new Color(164, 52, 63)));
 
             // Create UI buttons.
             buttons = new List<BoxButton>();

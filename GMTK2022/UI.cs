@@ -107,18 +107,16 @@ namespace GMTK2022
     //////////////////////////////////////////////////////////////////////////////
     public class Draggable : Sprite
     {
-        private Sprite sprite;
-
         public Draggable(Texture2D texture, int x, int y)
         {
-            sprite.Texture = texture;
-            sprite.Position = new Vector2(x, y);
-            Sprite.Add(sprite);
+            Texture = texture;
+            Position = new Vector2(x, y);
+            Add(this);
         }
 
         public override void Draw(SpriteBatch sb)
         {
-            sb.Draw(sprite.Texture, sprite.Position, null, Color.White, 0.0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
+            sb.Draw(Texture, Position, null, Color.White, 0.0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
         }
     }
 }
