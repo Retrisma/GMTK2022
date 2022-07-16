@@ -8,6 +8,27 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace GMTK2022
 {
+    public class UiRect
+    {
+        private Rectangle rect;
+        private Color fill_color;
+        private Color border_color;
+        private int border_size = 1;
+
+        public UiRect(int pos_x, int pos_y, int width, int height, Color _fill_color, Color _border_color)
+        {
+            rect = new Rectangle(pos_x, pos_y, width, height);
+            fill_color = _fill_color;
+            border_color = _border_color;
+        }
+
+        public void Fill(Texture2D fill, SpriteBatch sb)
+        {
+            sb.Draw(fill, new Vector2(rect.X, rect.Y), new Rectangle(0, 0, 1, 1), border_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width, rect.Height), SpriteEffects.None, 0f);
+            sb.Draw(fill, new Vector2(rect.X + border_size, rect.Y + border_size), new Rectangle(0, 0, 1, 1), fill_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width - (border_size * 2), rect.Height - (border_size * 2)), SpriteEffects.None, 0f);
+        }
+    }
+
     public class BoxButton
     {
         private Rectangle rect;

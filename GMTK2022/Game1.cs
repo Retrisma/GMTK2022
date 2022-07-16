@@ -19,8 +19,9 @@ namespace GMTK2022
         public static List<Sprite> _spritesToAdd;
         public static List<Sprite> _spritesToRemove;
 
-        public static List<BoxButton> buttons;
         private Texture2D box_fill;
+        public static List<BoxButton> buttons;
+        public static List<UiRect> ui_rects;
 
         public static Dictionary<string, Texture2D> _spriteContent;
         public static Dictionary<string, SoundEffect> _musicContent;
@@ -56,10 +57,19 @@ namespace GMTK2022
 
             _rand = new Random(Guid.NewGuid().GetHashCode());
 
+            ui_rects = new List<UiRect>();
+            ui_rects.Add(new UiRect(0, 0, 960, 100, new Color(71, 79, 83), new Color(21, 29, 33)));
+            ui_rects.Add(new UiRect(860, 0, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77)));
+            ui_rects.Add(new UiRect(560, 0, 300, 100, new Color(210, 226, 214), new Color(160, 176, 164)));
+            ui_rects.Add(new UiRect(860, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141)));
+            
+
             // Create UI buttons.
             buttons = new List<BoxButton>();
-            buttons.Add(new BoxButton("Test Button", 16, 16, 100, 50, Color.Black, Color.LightGray));
-            buttons.Add(new BoxButton("Other Button", 132, 16, 100, 50, Color.Black, Color.LightGray));
+            buttons.Add(new BoxButton("$50", 16, 25, 100, 50, Color.Black, Color.LightGray));
+            buttons.Add(new BoxButton("$100", 132, 25, 100, 50, Color.Black, Color.LightGray));
+            buttons.Add(new BoxButton("$150", 248, 25, 100, 50, Color.Black, Color.LightGray));
+            buttons.Add(new BoxButton("$200", 364, 25, 100, 50, Color.Black, Color.LightGray));
 
             base.Initialize();
         }
@@ -120,6 +130,11 @@ namespace GMTK2022
             foreach (Sprite sprite in _sprites)
             {
                 sprite.Draw(_spriteBatch);
+            }
+
+            foreach (UiRect ui_rect in ui_rects)
+            {
+                ui_rect.Fill(box_fill, _spriteBatch);
             }
 
             foreach (BoxButton button in buttons)
