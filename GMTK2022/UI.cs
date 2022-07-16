@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace GMTK2022
 {
+    //////////////////////////////////////////////////////////////////////////////
     public class UiRect
     {
         private Rectangle rect;
@@ -28,7 +29,9 @@ namespace GMTK2022
             sb.Draw(fill, new Vector2(rect.X + border_size, rect.Y + border_size), new Rectangle(0, 0, 1, 1), fill_color, 0.0f, new Vector2(0, 0), new Vector2(rect.Width - (border_size * 2), rect.Height - (border_size * 2)), SpriteEffects.None, 0f);
         }
     }
+    //////////////////////////////////////////////////////////////////////////////
 
+    //////////////////////////////////////////////////////////////////////////////
     public class BoxButton
     {
         private Rectangle rect;
@@ -97,6 +100,25 @@ namespace GMTK2022
         {
             Vector2 textMiddlePoint = font.MeasureString(text) / 2;
             sb.DrawString(Game1._font, text, rect.Center.ToVector2(), current_border_color, 0, textMiddlePoint, 1, SpriteEffects.None, 0f);
+        }
+    }
+    //////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////////////////////
+    public class Draggable : Sprite
+    {
+        private Sprite sprite;
+
+        public Draggable(Texture2D texture, int x, int y)
+        {
+            sprite.Texture = texture;
+            sprite.Position = new Vector2(x, y);
+            Sprite.Add(sprite);
+        }
+
+        public override void Draw(SpriteBatch sb)
+        {
+            sb.Draw(sprite.Texture, sprite.Position, null, Color.White, 0.0f, new Vector2(0, 0), 1f, SpriteEffects.None, 0f);
         }
     }
 }
