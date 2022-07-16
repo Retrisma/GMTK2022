@@ -62,14 +62,15 @@ namespace GMTK2022
             ui_rects.Add(new UiRect(860, 0, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77)));
             ui_rects.Add(new UiRect(560, 0, 300, 100, new Color(210, 226, 214), new Color(160, 176, 164)));
             ui_rects.Add(new UiRect(860, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141)));
+            ui_rects.Add(new UiRect(0, 0, 100, 540, new Color(214, 102, 113), new Color(164, 52, 63)));
             
 
             // Create UI buttons.
             buttons = new List<BoxButton>();
-            buttons.Add(new BoxButton("$50", 16, 25, 100, 50, Color.Black, Color.LightGray));
-            buttons.Add(new BoxButton("$100", 132, 25, 100, 50, Color.Black, Color.LightGray));
-            buttons.Add(new BoxButton("$150", 248, 25, 100, 50, Color.Black, Color.LightGray));
-            buttons.Add(new BoxButton("$200", 364, 25, 100, 50, Color.Black, Color.LightGray));
+            buttons.Add(new BoxButton("$50", 108, 25, 100, 50, Color.Black, Color.LightGray));
+            buttons.Add(new BoxButton("$100", 220, 25, 100, 50, Color.Black, Color.LightGray));
+            buttons.Add(new BoxButton("$150", 334, 25, 100, 50, Color.Black, Color.LightGray));
+            buttons.Add(new BoxButton("$200", 446, 25, 100, 50, Color.Black, Color.LightGray));
 
             base.Initialize();
         }
