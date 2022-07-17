@@ -52,6 +52,8 @@ namespace GMTK2022
 
         public int LastClicked = 0;
 
+        public int ChanceForTwins = 11;
+
         List<SoundEffect> DeathSoundEffects = new List<SoundEffect>
         {
             Game1._SFXContent["death1"],
@@ -73,9 +75,6 @@ namespace GMTK2022
             Emotion = new Emotion(this);
             Sprite.Add(Emotion);
 
-            Redness = 100;
-            Blueness = 100;
-
             SyncGenesWithStats();
         }
 
@@ -90,6 +89,7 @@ namespace GMTK2022
             Blueness = Mid(Blueness, 0, 255);
 
             Speed = Mid(Speed, 60, 180);
+            ChanceForTwins = Mid(ChanceForTwins, 1, 11);
         }
 
         public void SyncGenesWithStats()
@@ -156,7 +156,12 @@ namespace GMTK2022
                         this.Dish.Slots[3].Domino.Action(this);
                     break;
                 case 6:
-                    Baby();
+                    if (ChanceForTwins == 11 || Rand.Next(ChanceForTwins) != 0)
+                        Baby();
+                    else
+                    {
+                        Baby(); Baby();
+                    }
                     break;
             }
 

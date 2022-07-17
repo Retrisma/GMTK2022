@@ -96,7 +96,7 @@ namespace GMTK2022
 
             if (Bounds.Contains(mouseState.Position) && Creature != null)
             {
-                TextOut = $"Anger: {Creature.Anger}\nSocial: {Creature.Social}\nAntisocial: {Creature.Antisocial}";
+                TextOut = $"Anger: {Creature.Anger}\nSocial: {Creature.Social}\nAntisocial: {Creature.Antisocial}\nSpeed: 1 per {(Creature.Speed / 60)}";
 
                 Vector2 stringBox = Game1._font.MeasureString(TextOut);
 
@@ -138,6 +138,9 @@ namespace GMTK2022
         public int Antisocial { get; set; }
         public int Social { get; set; }
         public int Speed { get; set; }
+        public int Blueness { get; set; }
+        public int Redness { get; set; }
+        public int Greenness { get; set; }
 
         public FreezerCreature(Creature creature, FreezerSlot slot)
         {
@@ -150,6 +153,9 @@ namespace GMTK2022
             Social = creature.Social;
             Speed = creature.Speed;
             Color = creature.Color;
+            Blueness = creature.Blueness;
+            Redness = creature.Redness;
+            Greenness = creature.Greenness;
             LayerDepth = 0.3f;
         }
 
@@ -159,6 +165,10 @@ namespace GMTK2022
             x += Anger * 5;
             x += Antisocial * 5;
             x += Social * 5;
+            x += Math.Abs(Speed - 120);
+            x += Redness / 5;
+            x += Greenness / 5;
+            x += Blueness / 5;
 
             Game1._money += x;
 

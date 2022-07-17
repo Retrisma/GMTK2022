@@ -33,15 +33,14 @@ namespace GMTK2022
             new DominoLookup("I Roll Alone", "This die becomes less social.", Game1._spriteContent["RollAlone"]),
             new DominoLookup("Mitosis", "When rolled, this die has a low chance to divide into two identical dice.", Game1._spriteContent["Mitosis"]),
             new DominoLookup("Angry Young Die", "This die's children will be slightly angrier.", Game1._spriteContent["Angry Young Die"]),
-            new DominoLookup("Maverick", "This die develops a trait that is unpopular in its own dish.", Game1._spriteContent["Maverick"]),
-            new DominoLookup("Crowd Chaser", "This die slightly develops a trait popular in its own dish.", Game1._spriteContent["Crowd Chaser"]),
-            new DominoLookup("Close-Knit", "This die's children are more likely to be born in the same petri dish.", Game1._spriteContent["Close Knit"]),
-            new DominoLookup("Quantum Progenitor", "This die's children are more likely to be born in a random different petri dish.", Game1._spriteContent["Quantum Progenitor"]),
             new DominoLookup("Terrible Stench", "This die briefly repels nearby dice.", Game1._spriteContent["TerribleStench"]),
             new DominoLookup("Take It Easy!", "This die moves and rolls itself more slowly.", Game1._spriteContent["TakeItEasy"]),
             new DominoLookup("Speed Roller", "This die moves and rolls itself more quickly.", Game1._spriteContent["SpeedRoller"]),
             new DominoLookup("Redshift", "This die's offspring will be slightly redder", Game1._spriteContent["Redshift"]),
-
+            //new DominoLookup("Maverick", "This die develops a trait that is unpopular in its own dish.", Game1._spriteContent["Maverick"]),
+            //new DominoLookup("Crowd Chaser", "This die slightly develops a trait popular in its own dish.", Game1._spriteContent["Crowd Chaser"]),
+            //new DominoLookup("Close-Knit", "This die's children are more likely to be born in the same petri dish.", Game1._spriteContent["Close Knit"]),
+            //new DominoLookup("Quantum Progenitor", "This die's children are more likely to be born in a random different petri dish.", Game1._spriteContent["Quantum Progenitor"]),
         };
 
         public static Domino RandomDomino(Vector2 pos)
@@ -85,6 +84,7 @@ namespace GMTK2022
             switch (Value)
             {
                 case 0: // Alluring Cast
+                    creature.PushNearby(1, 10);
                     break;
                 case 1: // Feeling Blue
                     creature.BlueGene += 100;
@@ -99,28 +99,30 @@ namespace GMTK2022
                     creature.Emotions(0, 5, 0);
                     break;
                 case 5: // Mitosis
+                    creature.ChanceForTwins -= 1;
                     break;
                 case 6: // Angry Young Die
                     creature.AngerGene += 5;
                     break;
-                case 7: // Maverick
+                case 7: // Terrible Stench
+                    creature.PushNearby(-1, 10);
                     break;
-                case 8: // Crowd Chaser
-                    break;
-                case 9: // Close-Knit
-                    break;
-                case 10: // Quantum Progenitor
-                    break;
-                case 11: // Terrible Stench
-                    break;
-                case 12: // Take It Easy!
+                case 8: // Take It Easy!
                     creature.Speed += 10;
                     break;
-                case 13: // Speed Roller
+                case 9: // Speed Roller
                     creature.Speed -= 10;
                     break;
-                case 14: // Redshift
+                case 10: // Redshift
                     creature.RedGene += 100;
+                    break;
+                case 11: // Maverick
+                    break;
+                case 12: // Crowd Chaser
+                    break;
+                case 13: // Close-Knit
+                    break;
+                case 14: // Quantum Progenitor
                     break;
             }
 
