@@ -176,6 +176,11 @@ namespace GMTK2022
             }
         }
 
+        public void PushNearby()
+        {
+
+        }
+
         public void Old()
         {
             Age++;

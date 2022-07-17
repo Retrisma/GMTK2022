@@ -78,8 +78,11 @@ namespace GMTK2022
 
         public void AddCreatureToThis(Creature creature)
         {
-            FreezerCreature x = new FreezerCreature(creature, this);
-            this.Creature = x;
+            if (Game1._freezer.LastEmptySlot() != null)
+            {
+                FreezerCreature x = new FreezerCreature(creature, this);
+                this.Creature = x;
+            }
         }
 
         public override void Update(GameTime gt)
