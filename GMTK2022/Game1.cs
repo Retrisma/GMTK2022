@@ -22,10 +22,6 @@ namespace GMTK2022
         public static List<Sprite> _spritesToAdd;
         public static List<Sprite> _spritesToRemove;
 
-        private Texture2D box_fill;
-        public static List<UiRect> ui_rects;
-        public static List<BoxButton> buttons;
-
         public static Dictionary<string, Texture2D> _spriteContent;
         public static Dictionary<string, SoundEffect> _musicContent;
         public static Dictionary<string, SoundEffect> _SFXContent;
@@ -61,7 +57,7 @@ namespace GMTK2022
             _rand = new Random(Guid.NewGuid().GetHashCode());
 
             // Create UI rectangles.
-            ui_rects = new List<UiRect>();
+            List<UiRect> ui_rects = new List<UiRect>();
             ui_rects.Add(new UiRect(960, 100, 100, 540, new Color(125, 176, 127), new Color(75, 126, 77))); // dish 1 pips
             ui_rects.Add(new UiRect(0, 100, 100, 540, new Color(214, 102, 113), new Color(164, 52, 63))); // dish 2 pips
             ui_rects.Add(new UiRect(0, 0, 660, 100, new Color(71, 79, 83), new Color(21, 29, 33))); // shop
@@ -69,7 +65,7 @@ namespace GMTK2022
             ui_rects.Add(new UiRect(960, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141))); // stats
 
             // Create UI buttons.
-            buttons = new List<BoxButton>();
+            List<BoxButton> buttons = new List<BoxButton>();
             buttons.Add(new BoxButton("$50", 108, 25, 100, 50, Color.Black, Color.LightGray));
             buttons.Add(new BoxButton("$100", 220, 25, 100, 50, Color.Black, Color.LightGray));
             buttons.Add(new BoxButton("$150", 334, 25, 100, 50, Color.Black, Color.LightGray));
@@ -99,8 +95,6 @@ namespace GMTK2022
             _sprites.Add(Domino.RandomDomino(new Vector2(100)));
 
             _font = Content.Load<SpriteFont>("font");
-
-            box_fill = Content.Load<Texture2D>("Graphics/Pixel");
         }
 
         protected override void Update(GameTime gameTime)
