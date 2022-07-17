@@ -190,7 +190,8 @@ namespace GMTK2022
 
                     if ((xa * xa) + (ya * ya) < (r * r))
                     {
-
+                        double angle = Math.Atan2(creature.Position.Y - Position.Y, creature.Position.X - Position.X);
+                        creature.Position += (new Vector2(5 * (float)Math.Cos(angle), 5 * (float)Math.Sin(angle)) * direction);
                     }
                 }
             }

@@ -41,7 +41,10 @@ namespace GMTK2022
                     else if (sprite.GetType() == typeof(FreezerSlot))
                     {
                         FreezerSlot x = (FreezerSlot)sprite;
-                        x.Creature.Sell();
+                        {
+                            if (x.Creature != null)
+                                x.Creature.Sell();
+                        }
                     }
                     else if (sprite.GetType() == typeof(Slot))
                     {
