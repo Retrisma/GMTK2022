@@ -175,6 +175,8 @@ namespace GMTK2022
             {
                 Creature newCreature = new Creature(Dish.GenerateAcceptablePosition(), this.Dish);
 
+                newCreature.Redness = RedGene;
+                newCreature.Greenness = GreenGene;
                 newCreature.Blueness = BlueGene;
 
                 this.Dish.AddCreatureToPetriDish(newCreature);
