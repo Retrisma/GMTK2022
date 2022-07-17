@@ -21,7 +21,7 @@ namespace GMTK2022
 
             InitializeShop();
 
-            Sprite.Add(new BoxButton(0, "Reroll", 545, 15, 100, 70, Color.LightGray, Color.Blue));
+            Sprite.Add(new BoxButton(0, "Reroll", 545, 15, 100, 70, Color.LightBlue, Color.Blue));
         }
 
         private void InitializeShop()

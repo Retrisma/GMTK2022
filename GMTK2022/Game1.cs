@@ -24,6 +24,7 @@ namespace GMTK2022
 
         public static int _money = 200;
         public static Shop _shop;
+        public static Freezer _freezer;
 
         public static Dictionary<string, Texture2D> _spriteContent;
         public static Dictionary<string, SoundEffect> _musicContent;
@@ -36,6 +37,13 @@ namespace GMTK2022
         public static bool KeyPress(Keys key)
         {
             if (!_previousState.IsKeyDown(key) && _state.IsKeyDown(key))
+                return true;
+            return false;
+        }
+
+        public static bool LeftClick()
+        {
+            if (_previousMouseState.LeftButton == ButtonState.Released && _mouseState.LeftButton == ButtonState.Pressed)
                 return true;
             return false;
         }
@@ -90,12 +98,14 @@ namespace GMTK2022
 
             _sprites.Add(new PetriDish(new Vector2(120, 120), true)); //left petri
             _sprites.Add(new PetriDish(new Vector2(540, 120), false)); //right petri
+            _sprites.Add(new Timer(5 * 60, 1060 / 2 - 80, 108, 160, 50, Color.LightGreen, Color.DarkGreen));
 
             //_sprites.Add(Domino.RandomDomino(new Vector2(70)));
             //_sprites.Add(Domino.RandomDomino(new Vector2(100)));
 
             _font = Content.Load<SpriteFont>("font");
             _shop = new Shop();
+            _freezer = new Freezer();
         }
 
         protected override void Update(GameTime gameTime)
@@ -116,6 +126,7 @@ namespace GMTK2022
             _spritesToAdd.Clear();
 
             _shop.Update(gameTime);
+            _freezer.Update(gameTime);
 
             foreach (Sprite sprite in _sprites)
             {

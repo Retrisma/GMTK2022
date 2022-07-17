@@ -11,8 +11,8 @@ namespace GMTK2022
 {
     public class Creature : Sprite
     {
-        int Size { get; set; }
-        PetriDish Dish { get; set; }
+        int Size = 6;
+        public PetriDish Dish { get; set; }
 
         Random Rand = new Random(Guid.NewGuid().GetHashCode());
 
@@ -50,6 +50,8 @@ namespace GMTK2022
         public int Speed = 120;
         public int SpeedGene;
 
+        public int LastClicked = 0;
+
         List<SoundEffect> DeathSoundEffects = new List<SoundEffect>
         {
             Game1._SFXContent["death1"],
@@ -57,7 +59,7 @@ namespace GMTK2022
             Game1._SFXContent["death3"]
         };
 
-        public Creature(Vector2 position, int size, PetriDish dish)
+        public Creature(Vector2 position, PetriDish dish)
         {
             Init();
 
@@ -65,7 +67,6 @@ namespace GMTK2022
 
             Texture = Game1._spriteContent[$"{Rand.Next(6) + 1}up{Rand.Next(3) + 1}"];
             Position = position;
-            Size = size;
             Dish = dish;
             LayerDepth = (float)(Rand.NextDouble() / 10) + 0.9f;
 
@@ -166,7 +167,7 @@ namespace GMTK2022
         {
             if (this.Dish.Creatures.Count < this.Dish.Cap)
             {
-                Creature newCreature = new Creature(Dish.GenerateAcceptablePosition(), this.Size, this.Dish);
+                Creature newCreature = new Creature(Dish.GenerateAcceptablePosition(), this.Dish);
 
                 newCreature.Blueness = BlueGene;
 
@@ -255,9 +256,27 @@ namespace GMTK2022
             }
         }
 
+        public bool ClickLogic()
+        {
+            Rectangle Bounds = new Rectangle((int)Position.X, (int)Position.Y, (int)Texture.Width, (int)Texture.Height);
+
+            if (LastClicked > 0)
+            {
+                if (Game1.LeftClick() && Bounds.Contains(Game1._mouseState.Position))
+                    return true;
+                else
+                    LastClicked--;
+            }
+            else if (Game1.LeftClick() && Bounds.Contains(Game1._mouseState.Position))
+                LastClicked = 10;
+
+            return false;
+        }
+
         public override void Update(GameTime gt)
         {
             Color = new Color(Math.Max(255 - Greenness - Blueness, 0), Math.Max(255 - Redness - Blueness, 0), Math.Max(255 - Redness - Greenness, 0));
+            //ClickLogic();
 
             if (RollCooldown == 0 && !this.Dead && !this.Moving)
             {

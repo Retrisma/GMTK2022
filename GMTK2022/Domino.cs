@@ -114,10 +114,10 @@ namespace GMTK2022
                 case 11: // Terrible Stench
                     break;
                 case 12: // Take It Easy!
-                    creature.Speed -= 10;
+                    creature.Speed += 10;
                     break;
                 case 13: // Speed Roller
-                    creature.Speed += 10;
+                    creature.Speed -= 10;
                     break;
                 case 14: // Redshift
                     creature.RedGene += 100;

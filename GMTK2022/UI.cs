@@ -13,7 +13,7 @@ namespace GMTK2022
     {
         public Rectangle rect { get; set; }
         private Color fill_color;
-        private Color border_color;
+        public Color border_color;
         private int border_size = 1;
 
         public UiRect(int pos_x, int pos_y, int width, int height, Color _fill_color, Color _border_color)
@@ -21,6 +21,7 @@ namespace GMTK2022
             rect = new Rectangle(pos_x, pos_y, width, height);
             fill_color = _fill_color;
             border_color = _border_color;
+            Position = new Vector2(pos_x, pos_y);
             LayerDepth = 0.8f;
         }
 

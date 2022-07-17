@@ -75,7 +75,7 @@ namespace GMTK2022
             {
                 Vector2 z = GenerateAcceptablePosition();
 
-                Creature c = new Creature(z, 6, this);
+                Creature c = new Creature(z, this);
                 AddCreatureToPetriDish(c);
             }
         }
