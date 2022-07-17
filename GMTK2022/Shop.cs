@@ -11,7 +11,7 @@ namespace GMTK2022
 {
     public class Shop
     {
-        List<Slot> Slots;
+        public List<Slot> Slots;
         List<SpriteText> Text;
 
         public Shop()
@@ -21,7 +21,7 @@ namespace GMTK2022
 
             InitializeShop();
 
-            Sprite.Add(new BoxButton(0, "Reroll", 545, 15, 100, 70, Color.LightBlue, Color.Blue));
+            Sprite.Add(new BoxButton(0, "Reroll ($10)", 545, 50, 100, 30, Color.LightBlue, Color.Blue));
         }
 
         private void InitializeShop()
@@ -30,6 +30,10 @@ namespace GMTK2022
             {
                 Slots.Add(new Slot(new Vector2(50 + i * 175, 0)));
                 Text.Add(new SpriteText("", new Vector2(50 + i * 175, 80), Color.WhiteSmoke));
+
+                SpriteText x = new SpriteText("$" + (10 + 5 * i), new Vector2(126 + i * 175, 20), Color.LightGreen);
+                x.Scale = new Vector2(2, 2);
+                Sprite.Add(x);
 
                 Domino d = Domino.RandomDomino(new Vector2(0, 0));
                 Slots[i].Domino = d;
@@ -41,18 +45,39 @@ namespace GMTK2022
             Game1._spritesToAdd.AddRange(Text);
         }
 
-        public void RerollShop()
+        public void RerollShop(bool clicked)
         {
-            foreach (Slot slot in Slots)
+            if (clicked)
             {
-                if (slot.Domino != null)
-                    slot.Domino.Remove();
+                if (Game1._money >= 10)
+                {
+                    Game1._money -= 10;
+
+                    foreach (Slot slot in Slots)
+                    {
+                        if (slot.Domino != null)
+                            slot.Domino.Remove();
+                    }
+
+                    Game1._spritesToRemove.AddRange(Slots);
+                    Game1._spritesToRemove.AddRange(Text);
+
+                    InitializeShop();
+                }
             }
+            else
+            {
+                foreach (Slot slot in Slots)
+                {
+                    if (slot.Domino != null)
+                        slot.Domino.Remove();
+                }
 
-            Game1._spritesToRemove.AddRange(Slots);
-            Game1._spritesToRemove.AddRange(Text);
+                Game1._spritesToRemove.AddRange(Slots);
+                Game1._spritesToRemove.AddRange(Text);
 
-            InitializeShop();
+                InitializeShop();
+            }
         }
 
         public void Update(GameTime gt)

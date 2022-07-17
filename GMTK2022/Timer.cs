@@ -24,15 +24,48 @@ namespace GMTK2022
         {
             base.Update(gt);
 
-            double elapsed = gt.ElapsedGameTime.TotalSeconds;
-            Seconds -= elapsed;
+            if (Seconds > 0)
+            {
+                double elapsed = gt.ElapsedGameTime.TotalSeconds;
+                Seconds -= elapsed;
+            }
+            else if ((int)Seconds == 0)
+            {
+                foreach (Sprite sprite in Game1._sprites)
+                {
+                    if (sprite.GetType() == typeof(Creature))
+                    {
+                        Creature x = (Creature)sprite;
+                        x.Kill();
+                    }
+                    else if (sprite.GetType() == typeof(FreezerSlot))
+                    {
+                        FreezerSlot x = (FreezerSlot)sprite;
+                        x.Creature.Sell();
+                    }
+                    else if (sprite.GetType() == typeof(Slot))
+                    {
+                        Slot x = (Slot)sprite;
+                        x.Domino = null;
+                    }
+                    else if (sprite.GetType() == typeof(Domino))
+                    {
+                        Domino x = (Domino)sprite;
+                        x.Remove();
+                    }
+                }
+
+                Game1._shop.RerollShop(false);
+
+                Seconds = 2 * 60;
+            }
         }
 
         public override void Draw(SpriteBatch sb)
         {
             base.Draw(sb);
             string output = "";
-            int time = (int)Seconds;
+            int time = Math.Max((int)Seconds, 0);
 
             output += time / 60;
             output += ":";

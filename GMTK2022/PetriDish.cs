@@ -69,7 +69,7 @@ namespace GMTK2022
             }
         }
 
-        void Populate()
+        public void Populate()
         {
             while (Creatures.Count < 5)
             {
@@ -78,6 +78,12 @@ namespace GMTK2022
                 Creature c = new Creature(z, this);
                 AddCreatureToPetriDish(c);
             }
+        }
+
+        public override void Update(GameTime gt)
+        {
+            if (Creatures.Count == 0)
+                Populate();
         }
     }
 }

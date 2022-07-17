@@ -79,7 +79,7 @@ namespace GMTK2022
                 switch (Value)
                 {
                     case 0:
-                        Game1._shop.RerollShop();
+                        Game1._shop.RerollShop(true);
                         break;
                 }
             }
@@ -159,9 +159,17 @@ namespace GMTK2022
                     WasHeldLastFrame = true;
                 }
 
-                if ((Bounds.Contains(mouse_pos) && mouse_state.LeftButton == ButtonState.Pressed && (!HoldingAnyOtherDraggable())) || Holding)
+                if ((Bounds.Contains(mouse_pos) && mouse_state.LeftButton == ButtonState.Pressed && (!HoldingAnyOtherDraggable())) && !Holding)
                 {
+                    if (this.GetType() == typeof(Domino))
+                        Game1._SFXContent["dompickup" + (Game1._rand.Next(3) + 1)].Play();
+
                     Holding = true;
+                    this.Position = mouse_pos - new Vector2((int)(Width / 2), (int)(Height / 2));
+                    Bounds = new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)Width, (int)Height);
+                }
+                else if (Holding)
+                {
                     this.Position = mouse_pos - new Vector2((int)(Width / 2), (int)(Height / 2));
                     Bounds = new Rectangle((int)this.Position.X, (int)this.Position.Y, (int)Width, (int)Height);
                 }

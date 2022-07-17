@@ -84,20 +84,62 @@ namespace GMTK2022
                         if ((this.Value >= 2 && this.Value <= 5) || this.Value == 0)
                             if (x.WasHeldLastFrame && Bound.Contains(Game1._mouseState.Position) && x.Slot == null)
                             {
-                                x.Slot = this;
-                                this.Domino = x;
+                                if (!Game1._shop.Slots.Contains(this))
+                                {
+                                    x.Slot = this;
+                                    this.Domino = x;
+                                }
                             }
                     }
                 }
             }
             else
             {
-                if (Domino.Bounds.Contains(Game1._mouseState.Position) && Game1._mouseState.LeftButton == ButtonState.Pressed && Game1._previousMouseState.LeftButton == ButtonState.Released)
+                bool able = true;
+                foreach (Sprite sprite in Game1._sprites)
                 {
-                    Domino.Slot = null;
-                    Domino.Clickable = true;
-                    Domino.Holding = true;
-                    this.Domino = null;
+                    if (sprite.GetType() == typeof(Domino))
+                    {
+                        Domino x = (Domino)sprite;
+                        if (x.Slot == null)
+                        {
+                            able = false;
+                        }
+                    }
+                }
+                if (Domino.Bounds.Contains(Game1._mouseState.Position) && Game1._mouseState.LeftButton == ButtonState.Pressed && Game1._previousMouseState.LeftButton == ButtonState.Released && able)
+                {
+                    if (Game1._shop.Slots.Contains(this))
+                    {
+                        int price = 10;
+                        for (int i = 0; i < Game1._shop.Slots.Count; i++)
+                        {
+                            if (Game1._shop.Slots[i] == this)
+                            {
+                                price += 5 * i;
+                                break;
+                            }
+                        }
+
+                        if (Game1._money > price)
+                        {
+                            Game1._money -= price;
+
+                            Game1._SFXContent["domino_take"].Play();
+                            Domino.Slot = null;
+                            Domino.Clickable = true;
+                            Domino.Holding = true;
+                            this.Domino = null;
+                        }
+                    }
+                    else
+                    {
+                        Game1._SFXContent["domino_take"].Play();
+                        Domino.Slot = null;
+                        Domino.Clickable = true;
+                        Domino.Holding = true;
+                        this.Domino = null;
+                    }
                 }
             }
         }

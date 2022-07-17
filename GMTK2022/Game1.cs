@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace GMTK2022
 {
@@ -23,11 +24,12 @@ namespace GMTK2022
         public static List<Sprite> _spritesToRemove;
 
         public static int _money = 200;
+        public static SpriteText _moneyText;
         public static Shop _shop;
         public static Freezer _freezer;
 
         public static Dictionary<string, Texture2D> _spriteContent;
-        public static Dictionary<string, SoundEffect> _musicContent;
+        public static Dictionary<string, Song> _musicContent;
         public static Dictionary<string, SoundEffect> _SFXContent;
 
         public static SpriteFont _font;
@@ -93,12 +95,12 @@ namespace GMTK2022
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _spriteContent = ContentLoader.LoadListContent<Texture2D>(Content, "Graphics");
-            //_musicContent = ContentLoader.LoadListContent<SoundEffect>(Content, "Music");
+            _musicContent = ContentLoader.LoadListContent<Song>(Content, "Music");
             _SFXContent = ContentLoader.LoadListContent<SoundEffect>(Content, "SoundEffects");
 
             _sprites.Add(new PetriDish(new Vector2(120, 120), true)); //left petri
             _sprites.Add(new PetriDish(new Vector2(540, 120), false)); //right petri
-            _sprites.Add(new Timer(5 * 60, 1060 / 2 - 80, 108, 160, 50, Color.LightGreen, Color.DarkGreen));
+            _sprites.Add(new Timer(1 * 60, 1060 / 2 - 80, 108, 160, 50, Color.LightGreen, Color.DarkGreen));
 
             //_sprites.Add(Domino.RandomDomino(new Vector2(70)));
             //_sprites.Add(Domino.RandomDomino(new Vector2(100)));
@@ -106,6 +108,12 @@ namespace GMTK2022
             _font = Content.Load<SpriteFont>("font");
             _shop = new Shop();
             _freezer = new Freezer();
+            _moneyText = new SpriteText("$" + _money, new Vector2(565, 10), Color.LightGreen);
+            _moneyText.Scale = new Vector2(2, 2);
+            _sprites.Add(_moneyText);
+
+            MediaPlayer.Play(_musicContent["main"]);
+            MediaPlayer.IsRepeating = true;
         }
 
         protected override void Update(GameTime gameTime)
@@ -127,6 +135,7 @@ namespace GMTK2022
 
             _shop.Update(gameTime);
             _freezer.Update(gameTime);
+            _moneyText.Text = "$" + _money;
 
             foreach (Sprite sprite in _sprites)
             {

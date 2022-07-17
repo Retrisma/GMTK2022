@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace GMTK2022
 {
-    class SpriteText : Sprite
+    public class SpriteText : Sprite
     {
         public string Text { get; set; }
 

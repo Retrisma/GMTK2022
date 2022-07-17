@@ -130,6 +130,9 @@ namespace GMTK2022
         public override void Update(GameTime gt)
         {
             base.Update(gt);
+            
+            if (!Holding && WasHeldLastFrame)
+                Game1._SFXContent["dominodrop4"].Play();
 
             MouseState mouseState = Game1._mouseState;
             string textOut = $"{Name}\n\n{Description}";

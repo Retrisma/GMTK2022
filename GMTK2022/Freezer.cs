@@ -146,5 +146,18 @@ namespace GMTK2022
             Color = creature.Color;
             LayerDepth = 0.3f;
         }
+
+        public void Sell()
+        {
+            int x = 0;
+            x += Anger * 5;
+            x += Antisocial * 5;
+            x += Social * 5;
+
+            Game1._money += x;
+
+            this.Slot.Creature = null;
+            this.Remove();
+        }
     }
 }

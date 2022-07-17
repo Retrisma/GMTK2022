@@ -16,7 +16,7 @@ namespace GMTK2022
 
         Random Rand = new Random(Guid.NewGuid().GetHashCode());
 
-        int RollCooldown = 0;
+        public int RollCooldown = 0;
         bool Dead = false;
 
         Lerper Lerper;
@@ -161,6 +161,7 @@ namespace GMTK2022
             }
 
             Sprite.Add(new Number(this.Position + new Vector2(16, -10), x));
+            Game1._SFXContent["dice_roll" + (Rand.Next(3) + 1)].Play();
         }
 
         public void Baby()
@@ -188,6 +189,9 @@ namespace GMTK2022
             this.Color = Color.Red;
             this.Emotion.Remove();
             this.Dish.Creatures.Remove(this);
+
+            this.RollCooldown = 0;
+            this.Texture = Game1._spriteContent["DieDie1"];
 
             DeathSoundEffects[Rand.Next(3)].Play();
         }
@@ -287,7 +291,17 @@ namespace GMTK2022
 
                 RollCooldown = Speed;
             }
-            else if (RollCooldown == -20)
+            else if (RollCooldown == -6)
+            {
+                this.Texture = Game1._spriteContent["DieDie2"];
+                RollCooldown--;
+            }
+            else if (RollCooldown == -12)
+            {
+                this.Texture = Game1._spriteContent["DieDie3"];
+                RollCooldown--;
+            }
+            else if (RollCooldown == -18)
                 this.Remove();
             else
                 RollCooldown--;
