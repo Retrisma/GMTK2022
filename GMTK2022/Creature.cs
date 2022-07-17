@@ -176,9 +176,24 @@ namespace GMTK2022
             }
         }
 
-        public void PushNearby()
+        public void PushNearby(int direction, int radius)
         {
+            foreach (Creature creature in this.Dish.Creatures)
+            {
+                Vector2 pos = creature.Position;
 
+                if (creature != this)
+                {
+                    int xa = (int)(pos.X - creature.Position.X);
+                    int ya = (int)(pos.Y - creature.Position.Y);
+                    int r = radius;
+
+                    if ((xa * xa) + (ya * ya) < (r * r))
+                    {
+
+                    }
+                }
+            }
         }
 
         public void Old()

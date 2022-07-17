@@ -36,7 +36,10 @@ namespace GMTK2022
                     if (x.ClickLogic() && !AddedThisFrame)
                     {
                         AddedThisFrame = true;
-                        LastEmptySlot().AddCreatureToThis(x);
+
+                        if (LastEmptySlot() != null)
+                            LastEmptySlot().AddCreatureToThis(x);
+
                         x.Dish.Creatures.Remove(x);
                         x.Remove();
                     }
