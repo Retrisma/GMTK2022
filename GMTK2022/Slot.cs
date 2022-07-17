@@ -13,6 +13,7 @@ namespace GMTK2022
     {
         static List<Texture2D> Textures = new List<Texture2D>
         {
+            Game1._spriteContent["slot0"],
             Game1._spriteContent["slot1"],
             Game1._spriteContent["slot2"],
             Game1._spriteContent["slot3"],
@@ -26,11 +27,27 @@ namespace GMTK2022
         public Domino Domino = null;
         public Rectangle Bound;
 
+        public Slot(Vector2 position)
+        {
+            Init();
+            Value = 0;
+            Texture = Textures[0];
+            Width = Texture.Width;
+            Height = Texture.Height;
+
+            Position = position + new Vector2(0, 64);
+            Rotation = -(float)Math.PI / 2;
+
+            Bound = new Rectangle((int)Position.X, (int)Position.Y - 64, (int)Width, (int)Height);
+
+            LayerDepth = 0.12f;
+        }
+
         public Slot(int value, bool leftOrRight, PetriDish dish)
         {
             Init();
             Value = value;
-            Texture = Textures[Value - 1];
+            Texture = Textures[Value];
             Dish = dish;
             Width = Texture.Width;
             Height = Texture.Height;
@@ -64,7 +81,7 @@ namespace GMTK2022
                     {
                         Domino x = (Domino)sprite;
 
-                        if (this.Value >= 2 && this.Value <= 5)
+                        if ((this.Value >= 2 && this.Value <= 5) || this.Value == 0)
                             if (x.WasHeldLastFrame && Bound.Contains(Game1._mouseState.Position) && x.Slot == null)
                             {
                                 x.Slot = this;

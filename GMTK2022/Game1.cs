@@ -22,6 +22,9 @@ namespace GMTK2022
         public static List<Sprite> _spritesToAdd;
         public static List<Sprite> _spritesToRemove;
 
+        public static int _money = 200;
+        public static Shop _shop;
+
         public static Dictionary<string, Texture2D> _spriteContent;
         public static Dictionary<string, SoundEffect> _musicContent;
         public static Dictionary<string, SoundEffect> _SFXContent;
@@ -65,13 +68,13 @@ namespace GMTK2022
             ui_rects.Add(new UiRect(960, 0, 100, 100, new Color(166, 206, 191), new Color(116, 156, 141))); // stats
 
             // Create UI buttons.
-            List<BoxButton> buttons = new List<BoxButton>();
+            /*List<BoxButton> buttons = new List<BoxButton>();
             buttons.Add(new BoxButton("$50", 108, 25, 100, 50, Color.Black, Color.LightGray));
             buttons.Add(new BoxButton("$100", 220, 25, 100, 50, Color.Black, Color.LightGray));
             buttons.Add(new BoxButton("$150", 334, 25, 100, 50, Color.Black, Color.LightGray));
             buttons.Add(new BoxButton("$200", 446, 25, 100, 50, Color.Black, Color.LightGray));
 
-            _sprites.AddRange(buttons);
+            _sprites.AddRange(buttons);*/
             _sprites.AddRange(ui_rects);
 
             base.Initialize();
@@ -85,16 +88,14 @@ namespace GMTK2022
             //_musicContent = ContentLoader.LoadListContent<SoundEffect>(Content, "Music");
             _SFXContent = ContentLoader.LoadListContent<SoundEffect>(Content, "SoundEffects");
 
-            //for (int i = 0; i < 20; i++)
-            //    Sprite.Add(new Creature(6));
-
             _sprites.Add(new PetriDish(new Vector2(120, 120), true)); //left petri
             _sprites.Add(new PetriDish(new Vector2(540, 120), false)); //right petri
 
-            _sprites.Add(Domino.RandomDomino(new Vector2(70)));
-            _sprites.Add(Domino.RandomDomino(new Vector2(100)));
+            //_sprites.Add(Domino.RandomDomino(new Vector2(70)));
+            //_sprites.Add(Domino.RandomDomino(new Vector2(100)));
 
             _font = Content.Load<SpriteFont>("font");
+            _shop = new Shop();
         }
 
         protected override void Update(GameTime gameTime)
@@ -113,6 +114,8 @@ namespace GMTK2022
 
             _sprites.AddRange(_spritesToAdd);
             _spritesToAdd.Clear();
+
+            _shop.Update(gameTime);
 
             foreach (Sprite sprite in _sprites)
             {
@@ -136,11 +139,13 @@ namespace GMTK2022
                 sprite.Draw(_spriteBatch);
             }
 
-            _spriteBatch.DrawString(_font, "SHOP", new Vector2(330 - (_font.MeasureString("SHOP") / 2).X, 6), Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
+            //_spriteBatch.DrawString(_font, "SHOP", new Vector2(330 - (_font.MeasureString("SHOP") / 2).X, 6), Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
             _spriteBatch.DrawString(_font, "LIBRARY", new Vector2(760 - (_font.MeasureString("LIBRARY") / 2).X, 6), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
             _spriteBatch.DrawString(_font, "STATS?", new Vector2(1010 - (_font.MeasureString("STATS?") / 2).X, 6), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
             _spriteBatch.DrawString(_font, "DISH 1", new Vector2(50 - (_font.MeasureString("DISH 1") / 2).X, 106), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
             _spriteBatch.DrawString(_font, "DISH 2", new Vector2(1010 - (_font.MeasureString("DISH 2") / 2).X, 106), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
+
+
 
             _spriteBatch.End();
 

@@ -43,6 +43,7 @@ namespace GMTK2022
     {
         private Rectangle rect;
         private string text;
+        private int Value;
         private Color fill_color;
         private Color border_color;
         private Color current_fill_color;
@@ -53,10 +54,11 @@ namespace GMTK2022
         private MouseState prev_mouse_state;
         private MouseState mouse_state;
 
-        public BoxButton(string _text, int pos_x, int pos_y, int width, int height, Color _fill_color, Color _border_color)
+        public BoxButton(int value, string _text, int pos_x, int pos_y, int width, int height, Color _fill_color, Color _border_color)
         {
             rect = new Rectangle(pos_x, pos_y, width, height);
             text = _text;
+            Value = value;
             fill_color = _fill_color;
             border_color = _border_color;
         }
@@ -73,7 +75,12 @@ namespace GMTK2022
             bool prev_up = prev_mouse_state.LeftButton == ButtonState.Released;
             if (mouse_hovered && (current_clicked && prev_up))
             {
-                System.Diagnostics.Debug.WriteLine(text);
+                switch (Value)
+                {
+                    case 0:
+                        Game1._shop.RerollShop();
+                        break;
+                }
             }
 
             prev_mouse_state = mouse_state;

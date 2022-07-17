@@ -36,8 +36,19 @@ namespace GMTK2022
         public int Antisocial = 0;
         public int Social = 0;
 
+        public int AngerGene;
+
+        public int Redness = 0;
+        public int RedGene;
+
+        public int Greenness = 0;
+        public int GreenGene;
+
         public int Blueness = 0;
-        public int BlueGene = 0;
+        public int BlueGene;
+
+        public int Speed = 120;
+        public int SpeedGene;
 
         List<SoundEffect> DeathSoundEffects = new List<SoundEffect>
         {
@@ -60,11 +71,11 @@ namespace GMTK2022
 
             Emotion = new Emotion(this);
             Sprite.Add(Emotion);
-        }
 
-        int Mid(int x, int min, int max)
-        {
-            return Math.Min(Math.Max(min, x), max);
+            Redness = 100;
+            Blueness = 100;
+
+            SyncGenesWithStats();
         }
 
         public void SnapAttributes()
@@ -73,8 +84,46 @@ namespace GMTK2022
             Antisocial = Mid(Antisocial, 0, 10);
             Social = Mid(Social, 0, 10);
 
+            Redness = Mid(Redness, 0, 255);
+            Greenness = Mid(Greenness, 0, 255);
             Blueness = Mid(Blueness, 0, 255);
-            BlueGene = Mid(Blueness, 0, 255);
+
+            Speed = Mid(Speed, 60, 180);
+        }
+
+        public void SyncGenesWithStats()
+        {
+            SnapAttributes();
+
+            RedGene = Redness;
+            GreenGene = Greenness;
+            BlueGene = Blueness;
+
+            AngerGene = Anger;
+            SpeedGene = Speed;
+        }
+
+        int Mid(int x, int min, int max)
+        {
+            return Math.Min(Math.Max(min, x), max);
+        }
+
+        public void ChanceToTeleport(int probability)
+        {
+            if (Rand.Next(probability) == 0)
+            {
+                foreach (Sprite sprite in Game1._sprites)
+                {
+                    if (sprite.GetType() == typeof(PetriDish))
+                        if (sprite != this.Dish)
+                        {
+                            PetriDish x = (PetriDish)sprite;
+                            x.AddCreatureToPetriDish(this);
+                        }
+                }
+
+                this.Dish.Creatures.Remove(this);
+            }
         }
 
         public void Emotions(int angerMod = 0, int antisocialMod = 0, int socialMod = 0)
@@ -178,14 +227,14 @@ namespace GMTK2022
 
                 if (Dish.AcceptablePosition(Destination))
                 {
-                    int nearby = NearbyCreatures(10, this.Position);
+                    int nearby = NearbyCreatures(20, this.Position);
 
                     if (this.Antisocial >= 5)
-                        if (nearby < NearbyCreatures(10, Destination))
+                        if (nearby < NearbyCreatures(20, Destination))
                             continue;
 
                     if (this.Social >= 5)
-                        if (nearby > NearbyCreatures(10, Destination))
+                        if (nearby > NearbyCreatures(20, Destination))
                             continue;
 
                     break;
@@ -208,16 +257,16 @@ namespace GMTK2022
 
         public override void Update(GameTime gt)
         {
-            Color = new Color(255, 255, 255 - Blueness);
+            Color = new Color(Math.Max(255 - Greenness - Blueness, 0), Math.Max(255 - Redness - Blueness, 0), Math.Max(255 - Redness - Greenness, 0));
 
             if (RollCooldown == 0 && !this.Dead && !this.Moving)
             {
-                if (Rand.Next(2) == 0)
+                if (Rand.Next(4) == 0)
                     Roll();
                 else
                     Path();
 
-                RollCooldown = 120;
+                RollCooldown = Speed;
             }
             else if (RollCooldown == -20)
                 this.Remove();

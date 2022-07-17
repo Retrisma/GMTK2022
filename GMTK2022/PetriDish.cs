@@ -71,7 +71,7 @@ namespace GMTK2022
 
         void Populate()
         {
-            while (Creatures.Count < 10)
+            while (Creatures.Count < 5)
             {
                 Vector2 z = GenerateAcceptablePosition();
 
