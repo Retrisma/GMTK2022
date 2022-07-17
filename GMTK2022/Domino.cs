@@ -61,7 +61,7 @@ namespace GMTK2022
 
         public Slot Slot = null;
 
-        UiRect UiRect;
+        public UiRect UiRect;
         Vector2 TextPos = Vector2.Zero;
         bool DrawText = false;
 

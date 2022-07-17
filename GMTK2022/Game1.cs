@@ -27,6 +27,7 @@ namespace GMTK2022
         public static SpriteText _moneyText;
         public static Shop _shop;
         public static Freezer _freezer;
+        public static Trashcan _trashcan;
 
         public static Dictionary<string, Texture2D> _spriteContent;
         public static Dictionary<string, Song> _musicContent;
@@ -111,6 +112,7 @@ namespace GMTK2022
             _moneyText = new SpriteText("$" + _money, new Vector2(565, 10), Color.LightGreen);
             _moneyText.Scale = new Vector2(2, 2);
             _sprites.Add(_moneyText);
+            _sprites.Add(new Trashcan());
 
             MediaPlayer.Play(_musicContent["main"]);
             MediaPlayer.IsRepeating = true;
@@ -160,8 +162,8 @@ namespace GMTK2022
             }
 
             //_spriteBatch.DrawString(_font, "SHOP", new Vector2(330 - (_font.MeasureString("SHOP") / 2).X, 6), Color.White, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
-            _spriteBatch.DrawString(_font, "LIBRARY", new Vector2(760 - (_font.MeasureString("LIBRARY") / 2).X, 6), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
-            _spriteBatch.DrawString(_font, "STATS?", new Vector2(1010 - (_font.MeasureString("STATS?") / 2).X, 6), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
+            _spriteBatch.DrawString(_font, "LIBRARY", new Vector2(800 - (_font.MeasureString("FREEZER") / 2).X, 6), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
+            _spriteBatch.DrawString(_font, "TRASH", new Vector2(1010 - (_font.MeasureString("TRASH") / 2).X, 6), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
             _spriteBatch.DrawString(_font, "DISH 1", new Vector2(50 - (_font.MeasureString("DISH 1") / 2).X, 106), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
             _spriteBatch.DrawString(_font, "DISH 2", new Vector2(1010 - (_font.MeasureString("DISH 2") / 2).X, 106), Color.Black, 0, Vector2.Zero, Vector2.One, SpriteEffects.None, 0.7f);
 
