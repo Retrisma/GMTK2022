@@ -125,7 +125,7 @@ namespace GMTK2022
                         {
                             Game1._money -= price;
 
-                            Game1._SFXContent["domino_take"].Play();
+                            Game1._SFXContent["dompickup" + (Game1._rand.Next(3) + 1)].Play();
                             Domino.Slot = null;
                             Domino.Clickable = true;
                             Domino.Holding = true;
@@ -134,7 +134,7 @@ namespace GMTK2022
                     }
                     else
                     {
-                        Game1._SFXContent["domino_take"].Play();
+                        Game1._SFXContent["dompickup" + (Game1._rand.Next(3) + 1)].Play();
                         Domino.Slot = null;
                         Domino.Clickable = true;
                         Domino.Holding = true;
